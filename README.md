@@ -1,5 +1,4 @@
-Next Step
-A modern web application that provides an AI-powered call center interface for car-related inquiries and support.
+
 
 ## Features
 
