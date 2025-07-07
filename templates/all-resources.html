@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Resources Directory</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --background-color: #f8fafc;
+            --text-color: #1f2937;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: Inter, system-ui, -apple-system, sans-serif;
+        }
+
+        .header {
+            background-color: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title h1 {
+            font-size: 1.875rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .header-title p {
+            color: #6b7280;
+            margin: 0.5rem 0 0 0;
+        }
+
+        .search-section {
+            margin-bottom: 2rem;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            justify-content: center;
+        }
+
+        .category-filter {
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            background: white;
+            border: 1px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .category-filter.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem 0;
+        }
+
+        .resource-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .resource-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .resource-category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: #e5e7eb;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .resource-description {
+            color: #6b7280;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .resource-info {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-phone {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        /* Modal Styles */
+        .resource-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        /* Referral Button Styles */
+        .btn-referral {
+            background-color: #10b981;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-referral:hover {
+            background-color: #059669;
+        }
+
+        .btn-referral i {
+            font-size: 1rem;
+        }
+
+        /* Referral Form Styles */
+        .referral-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .referral-form {
+            background: white;
+            max-width: 500px;
+            margin: 2rem auto;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .referral-form h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .form-group select,
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .form-actions button {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-cancel {
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-cancel:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-submit {
+            background: #10b981;
+            border: none;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background: #059669;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #10b981;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 3000;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 600px;
+            margin: 2rem auto;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6b7280;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .modal-category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: #e5e7eb;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-section-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-info-item {
+            background: #f9fafb;
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .modal-info-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+
+        .modal-info-value {
+            font-weight: 500;
+        }
+
+        /* Client Selection Header */
+        .client-selection-header {
+            background: white;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .client-selection-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .client-select-group {
+            flex: 1;
+        }
+
+        .client-select-label {
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .client-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background: white;
+        }
+
+        .add-client-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .add-client-button:hover {
+            background: var(--secondary-color);
+        }
+
+        .resources-container {
+            opacity: 0.5;
+            pointer-events: none;
+            transition: all 0.3s;
+        }
+
+        .resources-container.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .resources-overlay {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 90;
+            font-size: 1.25rem;
+            color: #374151;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .resources-overlay.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-title">
+                    <h1>Community Resources Directory</h1>
+                    <p>Comprehensive list of Houston area support services</p>
+                </div>
+                <a href="javascript:history.back()" class="btn btn-primary">Back to Dashboard</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Client Selection Header -->
+    <div class="client-selection-header">
+        <div class="client-selection-content">
+            <div class="client-select-group">
+                <label for="globalClientSelect" class="client-select-label">Select Client to View Resources For:</label>
+                <select id="globalClientSelect" class="client-select" onchange="handleClientSelection()">
+                    <option value="">Choose a client...</option>
+                </select>
+            </div>
+            <button class="add-client-button" onclick="window.location.href='/'">
+                <i class="fas fa-plus"></i>
+                Add New Client
+            </button>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <main class="main">
+        <div class="container">
+            <div id="resourcesContainer" class="resources-container">
+                <!-- Search -->
+                <div class="search-section">
+                    <div class="search-form">
+                        <input type="text" class="search-input" id="searchInput" placeholder="Search by name, category, or description...">
+                        <button class="btn btn-primary" onclick="searchResources()">Search</button>
+                    </div>
+                    <div class="category-filters" id="categoryFilters">
+                        <!-- Categories will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Resources Grid -->
+                <div class="resources-grid" id="resourcesGrid">
+                    <!-- Resources will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Resources Overlay -->
+            <div id="resourcesOverlay" class="resources-overlay">
+                Please select a client above to view and interact with resources
+            </div>
+        </div>
+    </main>
+
+    <!-- Resource Modal -->
+    <div class="resource-modal" id="resourceModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modalContent">
+                <!-- Modal content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Referral Modal -->
+    <div class="referral-modal" id="referralModal">
+        <div class="referral-form">
+            <button class="modal-close" onclick="closeReferralModal()">&times;</button>
+            <h2>Log A Referral</h2>
+            <form id="referralForm" onsubmit="submitReferral(event)">
+                <input type="hidden" id="referralResourceIndex" name="resourceIndex">
+                
+                <div class="form-group">
+                    <label for="clientSelect">Select Client</label>
+                    <select id="clientSelect" name="clientId" required>
+                        <option value="">Choose a client...</option>
+                        <!-- Will be populated by JavaScript -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="socialWorkerName">Your Name</label>
+                    <input type="text" id="socialWorkerName" name="socialWorkerName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="socialWorkerEmail">Your Email</label>
+                    <input type="email" id="socialWorkerEmail" name="socialWorkerEmail" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="referralNotes">Additional Notes</label>
+                    <textarea id="referralNotes" name="notes" placeholder="Add any specific details or requirements..."></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="closeReferralModal()">Cancel</button>
+                    <button type="submit" class="btn-submit">Send Referral</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Global variable for selected client
+        let selectedClientId = null;
+        let clients = [];
+
+        // Load clients from API
+        async function loadClients() {
+            try {
+                const response = await fetch('/api/clients');
+                const data = await response.json();
+                if (data.status === 'success') {
+                    clients = data.clients;
+                    populateClientSelect();
+                }
+            } catch (error) {
+                console.error('Error loading clients:', error);
+                showNotification('Error loading clients');
+            }
+        }
+
+        // Resource data from resources.txt
+        const resources = [
+            // Food Assistance
+            {
+                title: "Houston Food Bank",
+                organization: "Houston Food Bank",
+                category: "Food Assistance",
+                description: "Food Pantry, Community Resource Center, SNAP Benefit Assistance, Disaster Relief Resource",
+                location: "535 Portwall St, Houston, TX 77029 and 146 Knobcrest Dr., Houston, TX 77060",
+                contact: "(832) 369-9390",
+                hours: "Monday – Friday, 7:00am – 9:00pm, Saturday 7:00am – 4:00pm, Sunday 9:00am – 12:00pm",
+                website: "https://www.houstonfoodbank.org/find-help/",
+                serviceArea: "Greater Houston Area"
+            },
+            {
+                title: "Braes Interfaith Ministries",
+                organization: "Braes Interfaith Ministries",
+                category: "Food Assistance",
+                description: "Food Pantry, Clothing (Resale Shop), Rental Assistance, Utilities, Limited Medical (Emergency Vision & Dental, Prescriptions)",
+                location: "4300 West Bellfort Ave Building 3, Houston, TX 77035",
+                contact: "(713) 723-2671",
+                hours: "Monday, Wednesday, and Friday, 10:00 AM – 2:00 PM (Please arrive by 1:30 PM)",
+                website: "https://braesinterfaithministries.org/",
+                serviceArea: "77002, 77003, 77004, 77005, 77006, 77007, 77010, 77011, 77012, 77019, 77020, 77021, 77023, 77025, 77026, 77027, 77028, 77030, 77031, 77036, 77046, 77056, 77057, 77072, 77074, 77081, 77096, 77098, 77401"
+            },
+            {
+                title: "Epiphany Community Health Outreach Services",
+                organization: "ECHOS",
+                category: "Food Assistance",
+                description: "Application Assistance, Financial Assistance (Rent & Utilities zip restricted), Food Pantry, Healthcare Mobile Clinics, Health Care Screening",
+                location: "9600 S Gessner Rd, Building E, Houston, TX 77071",
+                contact: "(713) 270-0369",
+                hours: "Food Pantry from (7AM to 9 AM) Mon-Thurs 8AM - 2PM, Friday 8AM-12 PM",
+                website: "https://echos-houston.org/client-services/financial_assistance/",
+                serviceArea: "77031, 77035, 77036, 77071, 77072, 77074, 77081, 77096, 77099"
+            },
+            {
+                title: "Double up Houston SNAP Incentive",
+                organization: "Urban Harvest",
+                category: "Food Assistance",
+                description: "Mobile Farmer's Market with SNAP benefits matching program",
+                location: "2752 Buffalo Speedway, Houston, TX 77027",
+                contact: "713-880-5540",
+                hours: "Saturdays, 8:00 AM -12:00 PM",
+                website: "https://www.urbanharvest.org/farmers-market/snap/",
+                specialFeatures: "Spend $1 SNAP/EBT, get $1 of fresh produce for free (up to $40 per day)"
+            },
+            {
+                title: "Kingwood United Methodist Church – Society of St. Stephen",
+                organization: "Kingwood United Methodist Church",
+                category: "Food Assistance",
+                description: "Food Pantry, clothing, and limited financial assistance with utilities and prescriptions",
+                location: "2307 Crystal Springs Drive, Kingwood, TX 77339",
+                contact: "(281) 358-7722",
+                hours: "Monday, Wednesdays, Fridays 9AM-11:30 AM",
+                website: "https://kingwoodumc.org/missions/",
+                serviceArea: "77327, 77336, 77339, 77345, 77346, 77357, 77365, 77372"
+            },
+            {
+                title: "L.I.F.E. Houston",
+                organization: "L.I.F.E. Houston",
+                category: "Food Assistance",
+                description: "Emergency formula for babies between 0-12 months",
+                location: "2002 S. Wayside Dr, Houston TX 77023",
+                contact: "(713) 528-6044, 713-428-2065 for formula appointments",
+                hours: "Monday – Friday, 9:30 AM – 3:30 PM",
+                website: "https://www.lifehouston.org/",
+                specialFeatures: "Phone Appointments Only, No Face-to-Face Various Pick-up locations",
+                serviceArea: "No Zip Code Restrictions. Pick up locations 77090, 77074, 77007, 77023, 77503"
+            },
+            {
+                title: "Mission Bells",
+                organization: "Mission Bells",
+                category: "Food Assistance",
+                description: "Food Pantry",
+                location: "15325 Bellaire Blvd, Houston, TX 77083",
+                contact: "(281) 850-0213",
+                hours: "Tuesday and Saturday, 9:00 AM – 11:00 AM",
+                website: "https://www.missionbells.org/",
+                serviceArea: "Greater Houston Area"
+            },
+            // Financial Assistance
+            {
+                title: "Harris County Social Services",
+                organization: "Harris County",
+                category: "Financial Assistance",
+                description: "Financial Assistance for Rent and Utilities (Gas, Water, Electric)",
+                location: "9418 Jensen Drive, Houston, TX 77093",
+                contact: "(713) 696-7900 or (832) 927-4955 for help finding housing",
+                hours: "Monday - Friday, 8:00 AM – 5:00 PM",
+                website: "https://csd.harriscountytx.gov/Pages/default.aspx",
+                serviceArea: "Greater Houston Area"
+            },
+            {
+                title: "Interfaith Caring Ministries",
+                organization: "Interfaith Caring Ministries",
+                category: "Financial Assistance",
+                description: "Financial Assistance (Rent and Utility), Food Pantry",
+                location: "151 Park Avenue, League City, TX 77573",
+                contact: "(281) 332-3881",
+                hours: "Mon-Thurs: 8:30 am – 4:30 pm, Fri: 8:30 am – 1:00 pm",
+                website: "http://icmtx.org/programs/emergency-rent-and-utility-assistance/",
+                serviceArea: "Must reside in Clear Creek or Friendswood ISD area"
+            },
+            {
+                title: "Katy Christian Ministries",
+                organization: "Katy Christian Ministries",
+                category: "Financial Assistance",
+                description: "Financial Assistance, Social Services, Counseling, Food Pantry, Crisis center",
+                location: "5506 First Street, Katy, TX 77493",
+                contact: "(281) 391-9623",
+                hours: "Monday – Thursday, 9:00 AM -12:00 PM & 1:00 PM – 5:00 PM",
+                website: "https://ktcm.org/",
+                specialFeatures: "Call for an appointment, applications are done over the phone",
+                serviceArea: "Must reside in the Katy ISD area"
+            },
+            {
+                title: "Northwest Assistance Ministries",
+                organization: "Northwest Assistance Ministries",
+                category: "Financial Assistance",
+                description: "Counseling (Adults), Financial (Rent, Mortgage, Utilities) and Food for victims of Domestic violence",
+                location: "15555 Kuykendahl Rd, Houston TX 77090",
+                contact: "(281) 885-4555 or Crisis Hotline: 281-885-4673 - 24/7",
+                hours: "Food Assistance - Monday – Thursday, 8:00 AM – 5:00 PM and Friday, 8:00 AM – 4:00 PM",
+                website: "https://www.namonline.org/",
+                specialFeatures: "Financial Assistance - Mon-Fri 8:00 AM – 2:00 PM – online application only (no walk ins)",
+                serviceArea: "77014, 77032, 77038, 77050, 77060, 77064, 77066, 77067, 77068, 77069, 77070, 77073, 77086, 77090, 77373, 77379, 77388, and 77389"
+            },
+            // Mental Health Services
+            {
+                title: "The Harris Center for Mental Health",
+                organization: "The Harris Center",
+                category: "Mental Health",
+                description: "Outpatient Mental Health Services, Comprehensive Psychiatric Emergency Program, Intellectual Disability & Autism Services",
+                contact: "(713) 970-7000",
+                hours: "24/7",
+                website: "https://www.theharriscenter.org/",
+                serviceArea: "Harris County",
+                specialFeatures: "For crisis hotline or current client press option 1 or reach by text at 832-479-2135"
+            },
+            {
+                title: "National Alliance on Mental Illness (NAMI)",
+                organization: "NAMI",
+                category: "Mental Health",
+                description: "Mental Health Services",
+                contact: "1-800-950-6264 or text 'TX' to 741741 (Crisis Line)",
+                hours: "Monday – Friday, 10:00 AM – 6:00 PM, Crisis Line 24/7",
+                website: "https://nami.org/Home",
+                serviceArea: "Nationwide"
+            },
+            {
+                title: "DePelchin Children's Center",
+                organization: "DePelchin",
+                category: "Mental Health",
+                description: "Mental Health Services (Family Counseling), Foster Care and Adoption assistance, Birth Mother program, Parenting Programs (Virtual), and School based programs",
+                contact: "713-730-2335",
+                hours: "8 AM – 5 PM Mon-Friday",
+                website: "https://www.depelchin.org/",
+                serviceArea: "Harris County, Fort Bend, and Waller County",
+                specialFeatures: "Services in English/Spanish, Services are grant funded and may have an approximate waiting list of 4 months"
+            },
+            {
+                title: "HEARTS (UT Health)",
+                organization: "UT Health",
+                category: "Mental Health",
+                description: "Free virtual/in-person professional counseling for clients currently using substances or a history of problematic substance abuse",
+                location: "1941 East Road, Houston, TX 77054",
+                contact: "713-486-2736",
+                email: "hearts@uth.tmc.edu",
+                hours: "8 AM – 4 PM Mon-Friday",
+                website: "https://med.uth.edu/psychiatry/heartsuthealth/",
+                specialFeatures: "Up to 12 free sessions, Also offer free HIV/HCV testing, Hepatitis A & B vaccinations, and case management",
+                serviceArea: "Greater Houston, Harris County"
+            },
+            {
+                title: "Charlie Health",
+                organization: "Charlie Health",
+                category: "Mental Health",
+                description: "Personalized treatment programs for teens, young adults, and families struggling with mental health and substance use disorders",
+                contact: "1 (866) 219-5070",
+                hours: "24/7",
+                website: "https://www.charliehealth.com/",
+                serviceArea: "Nationwide"
+            },
+            // Domestic Violence Services
+            {
+                title: "Houston Area Women's Center",
+                organization: "Houston Area Women's Center",
+                category: "Domestic Violence",
+                description: "Counseling (over the phone), Shelter (women and children only), Limited Legal Services, and Children's Court Services and Housing",
+                location: "1010 Waugh Dr, Houston, TX 77019",
+                contact: "(713) 528-2121 and (713) 528-7273",
+                hours: "24/7",
+                website: "https://hawc.org/",
+                serviceArea: "Greater Houston Area",
+                specialFeatures: "Call for assistance, main office is currently closed"
+            },
+            {
+                title: "Family Time Crisis and Counseling Center",
+                organization: "Family Time",
+                category: "Domestic Violence",
+                description: "Counseling, Shelter (Domestic Violence, Human Trafficking and Sexual Assault), Limited Legal Services, Anger Management and Parenting Classes",
+                location: "1203 S Houston Ave, Humble, TX 77338",
+                contact: "(281) 446-2615",
+                hours: "24/7",
+                website: "https://familytimeccc.org/",
+                serviceArea: "Greater Houston Area and Dayton, Texas",
+                specialFeatures: "Women and children only"
+            },
+            {
+                title: "Fort Bend Women's Center",
+                organization: "Fort Bend Women's Center",
+                category: "Domestic Violence",
+                description: "Counseling, Shelter (Women, Men, and Children), Limited Legal Services",
+                location: "501 E Highway 90A, Richmond, TX 77406",
+                contact: "(281) 342-4357",
+                hours: "24/7",
+                website: "https://fbwc.org/",
+                serviceArea: "Greater Houston Area"
+            },
+            {
+                title: "Tahirih Justice Center",
+                organization: "Tahirih Justice Center",
+                category: "Domestic Violence",
+                description: "Serves immigrant women, girls, and other survivors fleeing violence. Legal services in immigration law, social services, community referrals, training and education",
+                location: "1717 St. James Place, Suite 450, Houston, TX 77056",
+                contact: "713-496-0100",
+                hours: "9 AM – 5:30 PM",
+                website: "https://www.tahirih.org/locations/houston/",
+                serviceArea: "Greater Houston - Galveston Area",
+                specialFeatures: "Walk-ins are not accepted"
+            },
+            {
+                title: "The Bridge Over Troubled Waters",
+                organization: "The Bridge",
+                category: "Domestic Violence",
+                description: "Services and programs focused on domestic violence, sexual assault, emergency shelter program, housing, children's services, education and prevention, advocacy, and therapy",
+                location: "Baytown Office (1300 Rollingbrook Dr., Baytown, TX 77521); Pasadena Office (3811 Allen Genoa Rd. Pasadena, TX 77504)",
+                contact: "713-473-2801",
+                hours: "9 AM – 4 PM",
+                website: "https://tbotw.org/",
+                serviceArea: "Greater Houston Area"
+            },
+            // Transportation
+            {
+                title: "Harris County Rides Program",
+                organization: "Harris County",
+                category: "Transportation",
+                description: "RIDES is a curb-to-curb subsidized program that allows eligible customers and participating agencies to purchase transportation services at a significant discount",
+                location: "8410 Lantern Point Drive, Houston TX 77504",
+                contact: "713-368-RIDE (7433)",
+                hours: "Mon-Fri 8:30 AM – 4:30 PM",
+                eligibility: "65+ of age or people with disabilities (proof of age or disability required)",
+                website: "https://rides.harriscountytx.gov/pages/default.aspx",
+                serviceArea: "Harris County",
+                specialFeatures: "The customer/agency pays 50% of the total trip cost"
+            },
+            {
+                title: "Harris County Transit: Non-Emergency Medical Transportation",
+                organization: "Harris County Transit",
+                category: "Transportation",
+                description: "No Cost non-emergency medical appointment transportation within the service area",
+                contact: "713-696-1991 or 832-927-4952",
+                hours: "M-F 8AM -5 PM",
+                website: "https://transit.harriscountytx.gov/Pages/NonEmergency.aspx",
+                eligibility: "Age 62+ years or older or have a disability. Must be a Harris County resident and reside in service areas",
+                serviceArea: "Harris County & unincorporated areas including Atascocita, Barret Station, Baytown (North of I-10), Blackhawk & Scarsdale, Channelview, Cloverleaf, Crosby, Deer Park, Galena Park, Highlands, Huffman, Humble, Jacinto City, La Porte, McNair, North Forest & Sheldon, Shore Acres, Seabrook, South Houston, Tomball, Webster"
+            },
+            {
+                title: "Tow and Go",
+                organization: "City of Houston",
+                category: "Transportation",
+                description: "Free/Low-Cost Emergency Wrecker Service",
+                contact: "713-881-3333",
+                hours: "24/7",
+                website: "https://www.houstontx.gov/towandgo/",
+                specialFeatures: "Stalled vehicles (not involved in an accident) on Houston's freeways are towed to a nearby safe location off the freeway at no cost to the motorist",
+                serviceArea: "Houston Area"
+            },
+            {
+                title: "Lyft Vaccine Access",
+                organization: "Lyft",
+                category: "Transportation",
+                description: "Free transportation for some people who need a ride to and from a COVID-19 Vaccine appointment only",
+                contact: "Text your zip code to 438829",
+                website: "https://www.lyft.com/vaccine-access",
+                serviceArea: "Houston Area"
+            },
+            // Health Clinics
+            {
+                title: "CHRISTUS St. Mary's Clinic",
+                organization: "CHRISTUS",
+                category: "Healthcare",
+                description: "Vital healthcare and mental health services for uninsured patients",
+                location: "2002 S. Wayside Drive, Houston, TX 77023",
+                contact: "(713) 803-1840",
+                hours: "Monday – Friday 7:30 AM – 4:30 PM and Saturday 8:00 AM – 11:00 AM",
+                specialFeatures: "No insurance required, No Citizenship Required"
+            },
+            {
+                title: "Baylor Teen Health Clinic: Lawn Clinic",
+                organization: "Baylor College of Medicine",
+                category: "Healthcare",
+                description: "Mental & behavioral services, birth control, Gynecological Services, Immunizations, STI Screening & Treatment, Teen Primary Care Services",
+                location: "8111 Lawn St, Houston, TX 77088",
+                contact: "For Appointments (713-999-6980); Clinic Phone (281-847-9970)",
+                hours: "Monday: 8 AM – 6:30 PM; Tues-Thurs: 8 AM – 5 PM; Friday 8 AM – 12:30 PM",
+                website: "https://www.bcm.edu/community/healthcare-outreach/teen-health-clinic/teen-health-clinic-locations",
+                eligibility: "Ages 13-24 years old"
+            },
+            {
+                title: "Bee Busy Wellness Center",
+                organization: "Bee Busy",
+                category: "Healthcare",
+                description: "Family Planning, Women's Health, Men's Health, Pediatric Services, Dental, Behavioral Health (including Domestic Violence and IPV), Telemedicine",
+                location: "8785 W Belfort, Houston TX 77031",
+                contact: "713-771-2292",
+                hours: "Monday – Friday 8:30 AM – 6:00 PM; Saturday 8:30 AM – 2 PM",
+                website: "https://mybbwc.org/",
+                specialFeatures: "Financial Assistance Program available"
+            },
+            {
+                title: "IBN Sina Community Medical",
+                organization: "IBN Sina Foundation",
+                category: "Healthcare",
+                description: "Adult and Pediatrics Medical, Dental, Behavioral care, Immunization, Dermatology and Cardiac Health",
+                location: "5012 N Shepherd Dr, Houston, TX 77018",
+                contact: "713-695-7462",
+                hours: "Monday – Friday 8:30 AM – 5:00 PM",
+                website: "https://www.ibnsinafoundation.org/",
+                specialFeatures: "Financial Assistance Program available",
+                serviceArea: "Greater Houston Area (Multiple locations)"
+            },
+            {
+                title: "Harris County Public Health WIC",
+                organization: "Harris County Public Health",
+                category: "Healthcare",
+                description: "Nutrition education, breastfeeding promotion and support, healthy foods, referrals to health and social services",
+                contact: "(713) 407-5800 / Breastfeeding Support Line: (713) 407-5898",
+                hours: "Monday – Wednesday 8:00 am – 6:00 pm, Thursday 8:00 am – 3:00 pm and Friday 8:00 am – 2:00 pm",
+                website: "https://publichealth.harriscountytx.gov/Services-Programs/Services/WIC",
+                eligibility: "Pregnant, breastfeeding women, women who recently had a baby, women with an infant or child up to age 5, who meet income guidelines",
+                specialFeatures: "NO ELIGIBILITY REQUIREMENTS",
+                locations: "Nine Locations in Harris County: Antoine, Baytown, Bear Creek, Cypress Station, Emerald Plaza, Fallbrook, Scarsdale, and Tomball"
+            },
+            // Legal Services
+            {
+                title: "Houston Volunteer Lawyers",
+                organization: "Houston Volunteer Lawyers",
+                category: "Legal",
+                description: "Pro Bono legal aid for family, housing, taxes, legal guardianship, veterans, employment",
+                location: "1111 Bagby Street, FLB300, Houston, TX 77002",
+                contact: "(713) 228-0735",
+                website: "https://www.makejusticehappen.org/",
+                serviceArea: "Houston"
+            },
+            {
+                title: "Lone Star Legal",
+                organization: "Lone Star Legal",
+                category: "Legal",
+                description: "Legal Help, COVID-19 Evictions, and Other Resources (No criminal cases)",
+                location: "500 Jefferson St, 17th Fl, Houston, TX 77002",
+                contact: "(713) 652-0077 or 1-800-733-8394",
+                hours: "Monday – Friday, 8:00 AM – 5:00 PM",
+                website: "https://www.lonestarlegal.org/",
+                specialFeatures: "No walk-ins, over the phone or website assistance only",
+                serviceArea: "Texas"
+            },
+            // Immigration Services
+            {
+                title: "YMCA International Services",
+                organization: "YMCA",
+                category: "Immigration",
+                description: "Career advancement, Immigration legal services, refugee services",
+                location: "6671 Southwest Freeway, Suite 250, Houston, TX 77074",
+                contact: "(713) 758-9280",
+                website: "https://ymcahouston.org/locations/ymca-international-services",
+                serviceArea: "Houston"
+            },
+            {
+                title: "Interfaith Ministries for Greater Houston",
+                organization: "Interfaith Ministries",
+                category: "Immigration",
+                description: "Refugee Services (Housing Assistance, English Classes, Cultural Orientation, School Enrollment, Job Placement), Meals on Wheels, Interfaith Relations",
+                location: "3303 Main St. Houston Tx 77002",
+                contact: "713-533-4900; Quick contact for Refugee Services: 713-533-3106",
+                hours: "Mon – Friday 8:30 AM - 5:00 PM",
+                website: "https://www.imgh.org",
+                serviceArea: "Greater Houston"
+            },
+            {
+                title: "Justice for Our Neighbors Houston",
+                organization: "JFON Houston",
+                category: "Immigration",
+                description: "Affordable high-quality immigration legal services while engaging in immigration education and advocacy for low-income individuals and families",
+                location: "2220 Broadway Street, Houston, TX 77012",
+                contact: "713-454-6470",
+                hours: "Mon – Friday 9:00 AM – 5:00 PM",
+                website: "https://www.justiceforallimmigrants.org/",
+                specialFeatures: "Know-Your-Rights training, Free and low-cost legal services also available with assistance from grants",
+                serviceArea: "Houston Area"
+            },
+            {
+                title: "The Immigration Clinic at South Texas College of Law Houston",
+                organization: "South Texas College of Law",
+                category: "Immigration",
+                description: "Free or Low-cost Legal services for Immigrants, application assistance",
+                location: "1303 San Jacinto St, 10th floor of South Texas College of Law, Houston TX 77002",
+                contact: "713-646-2990",
+                hours: "Mon – Friday 9:00 AM – 5:30 PM",
+                website: "https://www.stcl.edu/academics/legal-clinics/",
+                specialFeatures: "Student-Attorney Run Clinic",
+                serviceArea: "Harris County"
+            },
+            // Shelter Information
+            {
+                title: "The Life Center for the Homeless",
+                organization: "The Life Center",
+                category: "Shelter",
+                description: "They offer a place to stay, food, clothing, counseling, computer literacy program, drug/alcohol rehabilitation",
+                location: "4516 Old Yale st, Houston, TX 77018",
+                contact: "832-413-1746",
+                website: "http://www.lifecenterhouston.com/",
+                serviceArea: "Texas"
+            },
+            {
+                title: "Star of Hope",
+                organization: "Star of Hope",
+                category: "Shelter",
+                description: "They offer a place to stay, food, clothing, development center, and workforce center",
+                location: "4848 Loop Central Dr, Houston, TX 77081",
+                contact: "713-748-0700",
+                website: "https://www.sohmission.org/",
+                specialFeatures: "Intakes are Monday - Friday",
+                serviceArea: "Texas"
+            },
+            {
+                title: "The Beacon",
+                organization: "The Beacon",
+                category: "Shelter",
+                description: "They offer a place to stay, food, clothing, legal aid",
+                location: "1212 Prairie st, Houston, TX 77002",
+                contact: "713-220-9737",
+                website: "https://www.beaconhomeless.org/",
+                serviceArea: "Texas"
+            },
+            {
+                title: "Covenant Houses",
+                organization: "Covenant Houses",
+                category: "Shelter",
+                description: "YOUTH SHELTER (18-24) Meals, laundry, activities, parenting program, transitional housing program",
+                location: "1111 Lovett Blvd, Houston, TX 77006",
+                contact: "713-523-2231",
+                website: "https://www.covenanthousetx.org/",
+                serviceArea: "Texas"
+            },
+            {
+                title: "Spirit Key",
+                organization: "Spirit Key",
+                category: "Shelter",
+                description: "Housing, family counseling, interventions, crisis center for the homeless, mentoring, job, life and skills training",
+                location: "13617 Kaltenbrun Rd, Houston, TX 77086",
+                contact: "281-971-0014",
+                website: "http://www.spiritkey.org/",
+                serviceArea: "Texas"
+            },
+            {
+                title: "SEARCH",
+                organization: "SEARCH",
+                category: "Shelter",
+                description: "Housing, family counseling, interventions, crisis center for the homeless, mentoring, job, life and skills training",
+                location: "2015 Congress Avenue, Houston, TX 77002",
+                contact: "713-739-7752",
+                website: "https://www.searchhomeless.org/",
+                serviceArea: "Texas"
+            },
+            // Senior Resources
+            {
+                title: "Harris County Area Agency on Aging",
+                organization: "Harris County",
+                category: "Senior Services",
+                description: "Access and assistance services, care coordination, In-home services, caregiver support coordination, evidence-based classes, nutrition programs",
+                location: "8000 North Stadium Drive, Third Floor Houston, TX 77504",
+                contact: "832-393-4301",
+                email: "aging@houstontx.gov",
+                website: "https://www.houstontx.gov/health/Aging/",
+                serviceArea: "Harris County"
+            },
+            {
+                title: "Jim & JoAnn Fonteno Senior Center",
+                organization: "Harris County",
+                category: "Senior Services",
+                description: "Activity center and Education Center",
+                location: "6600 Bissonnet St, Houston, TX 77074",
+                contact: "713-274-3305",
+                hours: "Monday-Friday 7:30am – 4:00pm",
+                website: "https://www.pct3.com/Senior-Centers/Jim-JoAnn-Fonteno-Senior-Education-Center",
+                serviceArea: "Harris County"
+            },
+            {
+                title: "National Council on Aging",
+                organization: "NCOA",
+                category: "Senior Services",
+                description: "Food Assistance, Medication, Utility Assistance, Health Care, Rent/Mortgage Assistance and Housing, Transportation",
+                contact: "1-800-794-6559",
+                hours: "Monday – Friday, 9 AM – 5 PM",
+                website: "http://www.ncoa.org",
+                serviceArea: "Nationwide"
+            },
+            // Maternal & Child Services
+            {
+                title: "Collaborative for Children: Collab-Lab Mobile Classroom",
+                organization: "Collaborative for Children",
+                category: "Child Services",
+                description: "Mobile Education program for critical, future-focused early childhood education",
+                contact: "713-600-1265",
+                website: "https://collabforchildren.org/resources-for-families/collab-lab/",
+                eligibility: "Children Ages 3 to 5",
+                specialFeatures: "No cost to families",
+                serviceArea: "Galena Park, Greenspoint, and Acres Homes"
+            },
+            {
+                title: "Houston Health Dept. Healthy Families Program",
+                organization: "Houston Health Department",
+                category: "Family Services",
+                description: "Strengthens family bonds, improves child growth and development, encourages healthy birth spacing, decreasing child abuse and neglect",
+                contact: "(832) 395-9903",
+                hours: "Monday – Friday 8:00 AM – 5:00 PM",
+                website: "https://www.houstonhealth.org/services/family-child-health/healthy-families-houston",
+                eligibility: "First-time parents ages 14-19 who are pregnant or have a child less than 2 weeks old",
+                specialFeatures: "FREE services",
+                serviceArea: "Houston"
+            },
+            // Job Assistance
+            {
+                title: "Career and Recovery Resources, Inc.",
+                organization: "Career and Recovery Resources",
+                category: "Employment",
+                description: "Assist clients in employment",
+                location: "2525 San Jacinto St., Houston TX 77002",
+                contact: "713-754-7000",
+                hours: "Mon-Thurs 8 AM – 9 PM, Friday 8 AM – 6 PM",
+                website: "https://www.careerandrecovery.org/",
+                serviceArea: "Greater Houston and surrounding counties"
+            },
+            {
+                title: "Career Gear",
+                organization: "Career Gear",
+                category: "Employment",
+                description: "Clothing donations for employment seekers, veteran employment support & networking, work reentry workshops",
+                location: "7500 Bellaire Blvd Ste BB20, Houston, TX 77036",
+                contact: "713-778-9959",
+                hours: "Mon-Friday 10AM – 4PM",
+                website: "https://www.careergearhouston.org/index.html",
+                specialFeatures: "Work reentry workshops for ex-offenders, Hiring events, and Skill up incubator classes in information technology",
+                serviceArea: "Greater Houston"
+            },
+            {
+                title: "Dress For Success",
+                organization: "Dress For Success",
+                category: "Employment",
+                description: "Suiting up program, first impression interview preparation, job search, professional development",
+                location: "3310 Eastside Street, Houston TX 77098",
+                contact: "713-957-3779",
+                hours: "9 AM – 4:30 PM",
+                website: "https://www.dfshouston.org/programs",
+                specialFeatures: "Works with over 150 non-profit agencies, community groups, colleges, and universities",
+                serviceArea: "Greater Houston"
+            },
+            {
+                title: "Workforce Solutions",
+                organization: "Workforce Solutions",
+                category: "Employment",
+                description: "Helps people find jobs and job matching assistance, career counseling and financial aid for education/training or work support",
+                contact: "1(888) 469-5627",
+                website: "https://www.wrksolutions.com/about-us/contact-information",
+                serviceArea: "Walker, Montgomery, Liberty, Waller, Austin, Harris, Chambers, Colorado, Ft. Bend, Galveston, Wharton, Brazoria and Matagorda County"
+            }
+        ];
+
+        const categories = [...new Set(resources.map(r => r.category))].sort();
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load clients from API and initialize resources
+            loadClients();
+            initializeResources();
+        });
+
+        function populateClientSelect() {
+            const globalClientSelect = document.getElementById('globalClientSelect');
+            
+            if (clients.length === 0) {
+                globalClientSelect.innerHTML = `
+                    <option value="">No clients available - Add a client first</option>
+                `;
+                return;
+            }
+
+            globalClientSelect.innerHTML = `
+                <option value="">Choose a client...</option>
+                ${clients.map(client => `
+                    <option value="${client.id}">${client.firstName} ${client.lastName}</option>
+                `).join('')}
+            `;
+        }
+
+        function handleClientSelection() {
+            const clientId = document.getElementById('globalClientSelect').value;
+            selectedClientId = clientId;
+            
+            const resourcesContainer = document.getElementById('resourcesContainer');
+            const resourcesOverlay = document.getElementById('resourcesOverlay');
+            
+            if (clientId) {
+                resourcesContainer.classList.add('active');
+                resourcesOverlay.classList.add('hidden');
+            } else {
+                resourcesContainer.classList.remove('active');
+                resourcesOverlay.classList.remove('hidden');
+            }
+        }
+
+        function initializeResources() {
+            // Populate category filters
+            const filterContainer = document.getElementById('categoryFilters');
+            filterContainer.innerHTML = `
+                <div class="category-filter active" data-category="all">All Categories</div>
+                ${categories.map(category => 
+                    `<div class="category-filter" data-category="${category}">${category}</div>`
+                ).join('')}
+            `;
+
+            // Add click handlers to filters
+            document.querySelectorAll('.category-filter').forEach(filter => {
+                filter.addEventListener('click', function() {
+                    document.querySelectorAll('.category-filter').forEach(f => f.classList.remove('active'));
+                    this.classList.add('active');
+                    filterResources();
+                });
+            });
+
+            displayResources(resources);
+        }
+
+        function filterResources() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const activeCategory = document.querySelector('.category-filter.active').dataset.category;
+            
+            let filtered = resources;
+            
+            // Apply category filter
+            if (activeCategory !== 'all') {
+                filtered = filtered.filter(resource => resource.category === activeCategory);
+            }
+            
+            // Enhanced search filter with context awareness and scoring
+            if (searchTerm) {
+                // Extract context keywords from search term
+                const keywords = extractSearchKeywords(searchTerm);
+                
+                // Score each resource based on relevance
+                const scoredResources = filtered.map(resource => {
+                    let score = 0;
+                    const searchFields = [
+                        resource.title.toLowerCase(),
+                        resource.description.toLowerCase(),
+                        resource.organization.toLowerCase(),
+                        (resource.eligibility || '').toLowerCase(),
+                        (resource.specialFeatures || '').toLowerCase(),
+                        (resource.serviceArea || '').toLowerCase()
+                    ].join(' ');
+                    
+                    // Direct text match (highest priority)
+                    if (searchFields.includes(searchTerm)) {
+                        score += 100;
+                    }
+                    
+                    // Individual word matches
+                    const searchWords = searchTerm.split(' ').filter(word => word.length > 2);
+                    searchWords.forEach(word => {
+                        if (searchFields.includes(word)) {
+                            score += 10;
+                        }
+                    });
+                    
+                    // Context-aware keyword matching
+                    keywords.forEach(keyword => {
+                        switch(keyword) {
+                            case 'veteran':
+                                if (searchFields.includes('veteran') || searchFields.includes('military') || 
+                                    searchFields.includes('va ') || searchFields.includes('vash')) {
+                                    score += 50;
+                                }
+                                break;
+                            case 'family':
+                                if (searchFields.includes('family') || searchFields.includes('children') || 
+                                    searchFields.includes('parent') || searchFields.includes('kids')) {
+                                    score += 40;
+                                }
+                                break;
+                            case 'emergency':
+                                if (searchFields.includes('emergency') || searchFields.includes('immediate') || 
+                                    searchFields.includes('crisis') || searchFields.includes('24') ||
+                                    searchFields.includes('tonight') || searchFields.includes('urgent')) {
+                                    score += 60;
+                                }
+                                break;
+                            case 'women':
+                                if (searchFields.includes('women') || searchFields.includes('female') || 
+                                    searchFields.includes('pregnant') || searchFields.includes('maternal')) {
+                                    score += 45;
+                                }
+                                break;
+                            case 'senior':
+                                if (searchFields.includes('senior') || searchFields.includes('elderly') || 
+                                    searchFields.includes('older') || searchFields.includes('55+') ||
+                                    searchFields.includes('62+') || searchFields.includes('age')) {
+                                    score += 45;
+                                }
+                                break;
+                            case 'youth':
+                                if (searchFields.includes('youth') || searchFields.includes('young') || 
+                                    searchFields.includes('18-24') || searchFields.includes('student') ||
+                                    searchFields.includes('transitional age')) {
+                                    score += 45;
+                                }
+                                break;
+                            case 'disabled':
+                                if (searchFields.includes('disability') || searchFields.includes('accessible') || 
+                                    searchFields.includes('ada') || searchFields.includes('mental health') ||
+                                    searchFields.includes('physical') || searchFields.includes('accommodation')) {
+                                    score += 45;
+                                }
+                                break;
+                            case 'abuse':
+                                if (searchFields.includes('domestic violence') || searchFields.includes('abuse') || 
+                                    searchFields.includes('safety') || searchFields.includes('confidential') ||
+                                    searchFields.includes('secure') || searchFields.includes('protection')) {
+                                    score += 55;
+                                }
+                                break;
+                        }
+                    });
+                    
+                    // Title matches get bonus
+                    if (resource.title.toLowerCase().includes(searchTerm)) {
+                        score += 30;
+                    }
+                    
+                    // Organization matches
+                    if (resource.organization.toLowerCase().includes(searchTerm)) {
+                        score += 20;
+                    }
+                    
+                    // Eligibility-specific matches (very important)
+                    if (resource.eligibility && resource.eligibility.toLowerCase().includes(searchTerm)) {
+                        score += 40;
+                    }
+                    
+                    return { resource, score };
+                }).filter(item => item.score > 0);
+                
+                // Sort by score (highest first) and extract resources
+                filtered = scoredResources
+                    .sort((a, b) => b.score - a.score)
+                    .map(item => item.resource);
+            }
+            
+            displayResources(filtered);
+        }
+        
+        function extractSearchKeywords(searchTerm) {
+            const keywords = [];
+            const term = searchTerm.toLowerCase();
+            
+            // Veteran keywords
+            if (term.includes('veteran') || term.includes('military') || term.includes('va ') || 
+                term.includes('army') || term.includes('navy') || term.includes('marine') ||
+                term.includes('air force') || term.includes('ptsd') || term.includes('service member')) {
+                keywords.push('veteran');
+            }
+            
+            // Family keywords
+            if (term.includes('family') || term.includes('children') || term.includes('kids') || 
+                term.includes('parent') || term.includes('child') || term.includes('baby') ||
+                term.includes('teen') || term.includes('dependent')) {
+                keywords.push('family');
+            }
+            
+            // Emergency keywords
+            if (term.includes('emergency') || term.includes('urgent') || term.includes('immediate') || 
+                term.includes('crisis') || term.includes('tonight') || term.includes('now') ||
+                term.includes('homeless') || term.includes('evicted') || term.includes('asap')) {
+                keywords.push('emergency');
+            }
+            
+            // Women keywords
+            if (term.includes('women') || term.includes('female') || term.includes('pregnant') || 
+                term.includes('mother') || term.includes('mom') || term.includes('maternal') ||
+                term.includes('expecting') || term.includes('prenatal')) {
+                keywords.push('women');
+            }
+            
+            // Senior keywords
+            if (term.includes('senior') || term.includes('elderly') || term.includes('older') || 
+                term.includes('55+') || term.includes('62+') || term.includes('65+') ||
+                term.includes('retirement') || term.includes('medicare')) {
+                keywords.push('senior');
+            }
+            
+            // Youth keywords
+            if (term.includes('youth') || term.includes('young') || term.includes('18-24') || 
+                term.includes('student') || term.includes('college') || term.includes('transitional age') ||
+                term.includes('aging out') || term.includes('foster')) {
+                keywords.push('youth');
+            }
+            
+            // Disability keywords
+            if (term.includes('disabled') || term.includes('disability') || term.includes('accessible') || 
+                term.includes('ada') || term.includes('mental health') || term.includes('psychiatric') ||
+                term.includes('wheelchair') || term.includes('accommodation')) {
+                keywords.push('disabled');
+            }
+            
+            // Domestic violence keywords
+            if (term.includes('abuse') || term.includes('domestic violence') || term.includes('safety') || 
+                term.includes('flee') || term.includes('escape') || term.includes('dangerous') ||
+                term.includes('violent') || term.includes('protection') || term.includes('secure')) {
+                keywords.push('abuse');
+            }
+            
+            return keywords;
+        }
+
+        function displayResources(resourceList) {
+            const grid = document.getElementById('resourcesGrid');
+            
+            grid.innerHTML = resourceList.map((resource, index) => `
+                <div class="resource-card">
+                    <div onclick="openResourceModal(${index})">
+                        <h3 class="resource-title">${resource.title}</h3>
+                        <div class="resource-category">${resource.category}</div>
+                        <p class="resource-description">${resource.description}</p>
+                        <div class="resource-info">
+                            <strong>Organization:</strong> ${resource.organization}
+                        </div>
+                        ${resource.contact ? `
+                        <div class="resource-info">
+                            📞 <span class="resource-phone">${resource.contact}</span>
+                        </div>
+                        ` : ''}
+                        ${resource.location ? `
+                        <div class="resource-info">
+                            📍 ${resource.location}
+                        </div>
+                        ` : ''}
+                    </div>
+                    <button class="btn-referral" onclick="event.stopPropagation(); openReferralModal(${index});">
+                        <i class="fas fa-paper-plane"></i>
+                        Log A Referral
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function searchResources() {
+            filterResources();
+        }
+
+        function openResourceModal(index) {
+            const resource = resources[index];
+            const modal = document.getElementById('resourceModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            modalContent.innerHTML = `
+                <h2 class="modal-title">${resource.title}</h2>
+                <div class="modal-category">${resource.category}</div>
+                
+                <div class="modal-section">
+                    <div class="modal-info-grid">
+                        <div class="modal-info-item">
+                            <div class="modal-info-label">Organization</div>
+                            <div class="modal-info-value">${resource.organization}</div>
+                        </div>
+                        ${resource.contact ? `
+                        <div class="modal-info-item">
+                            <div class="modal-info-label">Contact</div>
+                            <div class="modal-info-value">${resource.contact}</div>
+                        </div>
+                        ` : ''}
+                        ${resource.hours ? `
+                        <div class="modal-info-item">
+                            <div class="modal-info-label">Hours</div>
+                            <div class="modal-info-value">${resource.hours}</div>
+                        </div>
+                        ` : ''}
+                        ${resource.serviceArea ? `
+                        <div class="modal-info-item">
+                            <div class="modal-info-label">Service Area</div>
+                            <div class="modal-info-value">${resource.serviceArea}</div>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h3 class="modal-section-title">About</h3>
+                    <p>${resource.description}</p>
+                </div>
+
+                ${resource.location ? `
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Location</h3>
+                    <p>${resource.location}</p>
+                </div>
+                ` : ''}
+
+                ${resource.website ? `
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Website</h3>
+                    <p><a href="${resource.website}" target="_blank">${resource.website}</a></p>
+                </div>
+                ` : ''}
+
+                ${resource.eligibility ? `
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Eligibility</h3>
+                    <p>${resource.eligibility}</p>
+                </div>
+                ` : ''}
+
+                ${resource.specialFeatures ? `
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Special Features</h3>
+                    <p>${resource.specialFeatures}</p>
+                </div>
+                ` : ''}
+
+                <button class="btn-referral" onclick="event.stopPropagation(); openReferralModal(${index});">
+                    <i class="fas fa-paper-plane"></i>
+                    Log A Referral
+                </button>
+            `;
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('resourceModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('resourceModal');
+            const referralModal = document.getElementById('referralModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+            if (event.target === referralModal) {
+                closeReferralModal();
+            }
+        }
+
+        // Search on enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchResources();
+            }
+        });
+
+        // Referral Functions
+        function openReferralModal(resourceIndex) {
+            console.log('Opening referral modal for resource:', resourceIndex);
+            
+            // Close resource modal if open
+            closeModal();
+            
+            if (!selectedClientId) {
+                showNotification('Please select a client first');
+                return;
+            }
+
+            const selectedClient = clients.find(c => c.id == selectedClientId);
+            
+            if (!selectedClient) {
+                showNotification('Error: Selected client not found');
+                return;
+            }
+
+            // Set the resource index and client
+            document.getElementById('referralResourceIndex').value = resourceIndex;
+            document.getElementById('clientSelect').innerHTML = `
+                <option value="${selectedClient.id}" selected>
+                    ${selectedClient.firstName} ${selectedClient.lastName}
+                </option>
+            `;
+            
+            // Show modal
+            const modal = document.getElementById('referralModal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            console.log('Referral modal opened successfully');
+        }
+
+        function closeReferralModal() {
+            console.log('Closing referral modal');
+            const modal = document.getElementById('referralModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.getElementById('referralForm').reset();
+        }
+
+        function showNotification(message) {
+            console.log('Showing notification:', message);
+            const notification = document.getElementById('notification');
+            notification.innerHTML = message;
+            notification.style.display = 'block';
+            notification.style.backgroundColor = message.toLowerCase().includes('error') || message.toLowerCase().includes('please') ? '#ef4444' : '#10b981';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 5000);
+        }
+
+        async function submitReferral(event) {
+            event.preventDefault();
+            console.log('Submitting referral');
+            
+            const formData = new FormData(event.target);
+            const resourceIndex = formData.get('resourceIndex');
+            const resource = resources[resourceIndex];
+            const clientId = parseInt(formData.get('clientId'));
+            const client = clients.find(c => c.id == clientId);
+            
+            if (!client) {
+                showNotification('Error: Client not found');
+                return;
+            }
+
+            console.log('Preparing referral for client:', client.firstName, client.lastName);
+            console.log('To resource:', resource.title);
+
+            // Prepare referral data for API
+            const referralData = {
+                client_id: clientId,
+                resource_name: resource.title,
+                resource_organization: resource.organization,
+                resource_category: resource.category,
+                to_email: 'hk80@rice.edu', // Your email for all referrals
+                social_worker_name: formData.get('socialWorkerName'),
+                social_worker_email: formData.get('socialWorkerEmail'),
+                notes: formData.get('notes') || 'No additional notes provided'
+            };
+
+            try {
+                // Send referral via API
+                const response = await fetch('/api/send-referral', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(referralData)
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    console.log('Referral sent successfully via email');
+                    
+                    // Update client in local memory (the API already updated the server)
+                    const clientIndex = clients.findIndex(c => c.id == clientId);
+                    if (clientIndex !== -1) {
+                        if (!clients[clientIndex].referrals) {
+                            clients[clientIndex].referrals = [];
+                        }
+                        clients[clientIndex].referrals.push({
+                date: new Date().toISOString(),
+                            resource_name: resource.title,
+                            to_email: 'hk80@rice.edu',
+                            social_worker: formData.get('socialWorkerName'),
+                            notes: formData.get('notes') || '',
+                            status: 'sent'
+                        });
+                    }
+            
+            // Close modal and show success message
+            closeReferralModal();
+                    showNotification(`✅ Email referral sent successfully to hk80@rice.edu for ${resource.title}!`);
+                } else {
+                    console.error('Referral failed:', result.error);
+                    showNotification(`❌ Error: ${result.error}`);
+                }
+            } catch (error) {
+                console.error('Error sending referral:', error);
+                showNotification('❌ Error sending referral. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html> 

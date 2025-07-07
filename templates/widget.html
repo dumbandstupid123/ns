@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Housing Counselor Widget</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Widget-specific styles for embedding */
+        .housing-widget {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            background: white;
+            display: flex;
+            flex-direction: column;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .widget-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 12px 12px 0 0;
+            text-align: center;
+        }
+
+        .widget-header h4 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .widget-chat {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .widget-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            max-height: 400px;
+        }
+
+        .widget-input {
+            padding: 1rem;
+            border-top: 1px solid #dee2e6;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .message-content {
+            padding: 0.75rem 1rem;
+            border-radius: 18px;
+            max-width: 85%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            text-align: right;
+        }
+
+        .user-message .message-content {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        .ai-message .message-content {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+
+        .widget-input input {
+            border-radius: 20px;
+            border: 2px solid #e9ecef;
+            padding: 0.5rem 1rem;
+        }
+
+        .widget-input input:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13,110,253,0.25);
+        }
+
+        .send-btn {
+            border-radius: 20px;
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            border: none;
+            padding: 0.5rem 1rem;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(13,110,253,0.3);
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 0.5rem 1rem;
+            background: #f8f9fa;
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            margin-right: auto;
+            max-width: 85%;
+        }
+
+        .typing-dots::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Quick action buttons */
+        .quick-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .quick-btn {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            color: #1976d2;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-btn:hover {
+            background: #2196f3;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="housing-widget" id="housingWidget">
+        <div class="widget-header">
+            <h4><i class="fas fa-home"></i> Housing Counselor - Maria</h4>
+            <small>Your personal housing advisor</small>
+        </div>
+        
+        <div class="widget-chat">
+            <div class="widget-messages" id="widgetMessages">
+                <div class="message ai-message">
+                    <div class="message-content">
+                        <strong>Maria:</strong><br>
+                        Hi! I'm Maria, your housing counselor. I help find the perfect housing solution for your specific situation. What brings you here today?
+                    </div>
+                </div>
+                
+                <div class="quick-actions">
+                    <button class="quick-btn" onclick="sendQuickMessage('I need emergency shelter tonight')">🏠 Emergency shelter</button>
+                    <button class="quick-btn" onclick="sendQuickMessage('I am a veteran needing housing')">🎖️ Veteran housing</button>
+                    <button class="quick-btn" onclick="sendQuickMessage('I am pregnant and need somewhere safe')">🤱 Maternal housing</button>
+                    <button class="quick-btn" onclick="sendQuickMessage('I am fleeing domestic violence')">🛡️ Safety needed</button>
+                </div>
+            </div>
+            
+            <div class="typing-indicator" id="typingIndicator">
+                <strong>Maria:</strong> <span class="typing-dots">Thinking about your situation</span>
+            </div>
+            
+            <div class="widget-input">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="widgetInput" placeholder="Tell me about your housing situation..." autocomplete="off">
+                    <button class="btn btn-primary send-btn" type="button" id="widgetSendBtn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class HousingWidget {
+            constructor(apiBaseUrl = 'http://localhost:8080') {
+                this.apiBaseUrl = apiBaseUrl;
+                this.messageInput = document.getElementById('widgetInput');
+                this.sendButton = document.getElementById('widgetSendBtn');
+                this.messagesContainer = document.getElementById('widgetMessages');
+                this.typingIndicator = document.getElementById('typingIndicator');
+                
+                this.initEventListeners();
+            }
+
+            initEventListeners() {
+                this.sendButton.addEventListener('click', () => {
+                    this.sendMessage();
+                });
+
+                this.messageInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
+                });
+            }
+
+            async sendMessage(message = null) {
+                const messageText = message || this.messageInput.value.trim();
+                
+                if (!messageText) return;
+
+                // Add user message
+                this.addMessage(messageText, 'user');
+                
+                // Clear input
+                this.messageInput.value = '';
+                
+                // Show typing indicator
+                this.showTyping();
+                
+                // Disable input
+                this.setInputState(false);
+
+                try {
+                    const response = await fetch(`${this.apiBaseUrl}/api/query`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ query: messageText })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    
+                    // Hide typing indicator
+                    this.hideTyping();
+                    
+                    // Add AI response
+                    this.addMessage(data.response, 'ai');
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    this.hideTyping();
+                    this.addMessage(
+                        "I'm having a technical issue right now, but I'm here to help! Can you tell me about your housing situation? Are you a veteran, do you have family with you, or is this an emergency?",
+                        'ai'
+                    );
+                } finally {
+                    this.setInputState(true);
+                    this.messageInput.focus();
+                }
+            }
+
+            addMessage(content, type) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${type}-message`;
+                
+                const messageContent = document.createElement('div');
+                messageContent.className = 'message-content';
+                
+                if (type === 'user') {
+                    messageContent.innerHTML = `<strong>You:</strong><br>${this.escapeHtml(content)}`;
+                } else {
+                    messageContent.innerHTML = `<strong>Maria:</strong><br>${this.formatResponse(content)}`;
+                }
+
+                messageDiv.appendChild(messageContent);
+                this.messagesContainer.appendChild(messageDiv);
+                
+                this.scrollToBottom();
+            }
+
+            showTyping() {
+                this.typingIndicator.style.display = 'block';
+                this.scrollToBottom();
+            }
+
+            hideTyping() {
+                this.typingIndicator.style.display = 'none';
+            }
+
+            setInputState(enabled) {
+                this.messageInput.disabled = !enabled;
+                this.sendButton.disabled = !enabled;
+            }
+
+            scrollToBottom() {
+                setTimeout(() => {
+                    this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+                }, 100);
+            }
+
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            formatResponse(text) {
+                text = this.escapeHtml(text);
+                text = text.replace(/\n/g, '<br>');
+                
+                // Make phone numbers clickable
+                text = text.replace(/(\d{3}-\d{3}-\d{4})/g, '<a href="tel:$1">$1</a>');
+                
+                // Make email addresses clickable
+                text = text.replace(/([\w\.-]+@[\w\.-]+\.\w+)/g, '<a href="mailto:$1">$1</a>');
+                
+                return text;
+            }
+        }
+
+        // Global function for quick action buttons
+        function sendQuickMessage(message) {
+            if (window.housingWidget) {
+                window.housingWidget.sendMessage(message);
+            }
+        }
+
+        // Initialize widget when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            window.housingWidget = new HousingWidget();
+        });
+    </script>
+</body>
+</html> 
