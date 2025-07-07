@@ -1,13 +1,12 @@
-# LiveKit AI Car Call Centre
-
+Next Step
 A modern web application that provides an AI-powered call center interface for car-related inquiries and support.
 
 ## Features
 
 - **Dashboard**: Modern interface with client management and call statistics
-- **AI Assistant**: Real-time voice and chat interface for car-related queries
+- **AI Assistant**: Real-time voice and chat interface 
 - **Client Management**: Track and manage client information
-- **Resource Management**: Manage and access car-related resources and documentation
+- **Resource Management**: Manage and access 
 - **LiveKit Integration**: Real-time video and audio communication
 
 ## Setup Instructions
