@@ -17,6 +17,10 @@ def check_dependencies():
         import fastapi
         import uvicorn
         import langchain
+        import langchain_core
+        import langchain_openai
+        import langchain_chroma
+        import langchain_text_splitters
         import openai
         import chromadb
         logger.info("All critical dependencies found")

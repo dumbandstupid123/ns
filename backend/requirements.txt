@@ -2,17 +2,27 @@
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
 python-dotenv==1.0.0
-langchain==0.1.20
-langchain-openai==0.1.8
-langchain_chroma==0.1.2
-chromadb==0.4.24
+
+# LangChain ecosystem - compatible versions
+langchain==0.2.16
+langchain-openai==0.1.23
+langchain-core==0.2.38
+langchain_chroma==0.1.4
+langchain-text-splitters==0.2.4
+
+# Vector store and embeddings
+chromadb==0.5.5
+openai==1.45.0
+
+# Document processing
 pypdf==3.17.4
-numpy==1.26.4
 beautifulsoup4==4.12.2
+
+# Core dependencies
+numpy==1.26.4
 requests==2.31.0
-openai==1.35.0
 aiofiles==23.2.1
 
 # Additional dependencies for Railway deployment
-pydantic==2.4.2
+pydantic==2.5.3
 typing-extensions==4.8.0
