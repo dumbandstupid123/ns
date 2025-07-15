@@ -26,20 +26,69 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Helper function to handle Firebase errors
+  const handleFirebaseError = (error) => {
+    console.error('Firebase Error:', error);
+    let userFriendlyMessage = 'An error occurred. Please try again.';
+    
+    switch (error.code) {
+      case 'auth/user-not-found':
+        userFriendlyMessage = 'No account found with this email address.';
+        break;
+      case 'auth/wrong-password':
+        userFriendlyMessage = 'Incorrect password. Please try again.';
+        break;
+      case 'auth/email-already-in-use':
+        userFriendlyMessage = 'An account with this email already exists.';
+        break;
+      case 'auth/weak-password':
+        userFriendlyMessage = 'Password should be at least 6 characters.';
+        break;
+      case 'auth/invalid-email':
+        userFriendlyMessage = 'Please enter a valid email address.';
+        break;
+      case 'auth/too-many-requests':
+        userFriendlyMessage = 'Too many failed attempts. Please try again later.';
+        break;
+      case 'auth/network-request-failed':
+        userFriendlyMessage = 'Network error. Please check your connection.';
+        break;
+      case 'auth/popup-closed-by-user':
+        userFriendlyMessage = 'Sign-in was cancelled.';
+        break;
+      default:
+        userFriendlyMessage = error.message;
+    }
+    
+    setError(userFriendlyMessage);
+    return userFriendlyMessage;
+  };
+
+  // Clear error function
+  const clearError = () => setError(null);
+
   // Sign up with email and password
   const signup = async (email, password, displayName) => {
     try {
-      setError(null);
+      clearError();
+      console.log('Attempting to sign up with email:', email);
+      
+      if (!auth) {
+        throw new Error('Firebase auth not initialized');
+      }
+      
       const { user } = await createUserWithEmailAndPassword(auth, email, password);
+      console.log('User created successfully:', user.uid);
       
       // Update user profile with display name
       if (displayName) {
         await updateProfile(user, { displayName });
+        console.log('User profile updated with display name:', displayName);
       }
       
       return user;
     } catch (error) {
-      setError(error.message);
+      handleFirebaseError(error);
       throw error;
     }
   };
@@ -47,11 +96,18 @@ export const AuthProvider = ({ children }) => {
   // Sign in with email and password
   const login = async (email, password) => {
     try {
-      setError(null);
+      clearError();
+      console.log('Attempting to login with email:', email);
+      
+      if (!auth) {
+        throw new Error('Firebase auth not initialized');
+      }
+      
       const { user } = await signInWithEmailAndPassword(auth, email, password);
+      console.log('User logged in successfully:', user.uid);
       return user;
     } catch (error) {
-      setError(error.message);
+      handleFirebaseError(error);
       throw error;
     }
   };
@@ -59,12 +115,21 @@ export const AuthProvider = ({ children }) => {
   // Sign in with Google
   const loginWithGoogle = async () => {
     try {
-      setError(null);
+      clearError();
+      console.log('Attempting Google sign-in');
+      
+      if (!auth) {
+        throw new Error('Firebase auth not initialized');
+      }
+      
       const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+      
       const { user } = await signInWithPopup(auth, provider);
+      console.log('Google sign-in successful:', user.uid);
       return user;
     } catch (error) {
-      setError(error.message);
+      handleFirebaseError(error);
       throw error;
     }
   };
@@ -72,10 +137,17 @@ export const AuthProvider = ({ children }) => {
   // Sign out
   const logout = async () => {
     try {
-      setError(null);
+      clearError();
+      console.log('Attempting to sign out');
+      
+      if (!auth) {
+        throw new Error('Firebase auth not initialized');
+      }
+      
       await signOut(auth);
+      console.log('User signed out successfully');
     } catch (error) {
-      setError(error.message);
+      handleFirebaseError(error);
       throw error;
     }
   };
@@ -83,10 +155,17 @@ export const AuthProvider = ({ children }) => {
   // Reset password
   const resetPassword = async (email) => {
     try {
-      setError(null);
+      clearError();
+      console.log('Attempting password reset for email:', email);
+      
+      if (!auth) {
+        throw new Error('Firebase auth not initialized');
+      }
+      
       await sendPasswordResetEmail(auth, email);
+      console.log('Password reset email sent successfully');
     } catch (error) {
-      setError(error.message);
+      handleFirebaseError(error);
       throw error;
     }
   };
@@ -100,18 +179,35 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    console.log('Setting up Firebase auth state listener');
+    
+    if (!auth) {
+      console.error('Firebase auth not available');
+      setLoading(false);
+      return;
+    }
+    
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log('Auth state changed:', user ? `User: ${user.uid}` : 'No user');
       setCurrentUser(user);
+      setLoading(false);
+    }, (error) => {
+      console.error('Auth state change error:', error);
+      handleFirebaseError(error);
       setLoading(false);
     });
 
-    return unsubscribe;
+    return () => {
+      console.log('Cleaning up auth state listener');
+      unsubscribe();
+    };
   }, []);
 
   const value = {
     currentUser,
     loading,
     error,
+    clearError,
     signup,
     login,
     loginWithGoogle,

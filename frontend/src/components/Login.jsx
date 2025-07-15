@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { useNavigate, Link } from 'react-router-dom';
 import './Auth.css';
@@ -8,32 +8,53 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { login, loginWithGoogle, error } = useAuth();
+  const { login, loginWithGoogle, error, clearError } = useAuth();
   const navigate = useNavigate();
+
+  // Clear errors when component mounts or when user starts typing
+  useEffect(() => {
+    clearError();
+  }, [clearError]);
+
+  useEffect(() => {
+    if (email || password) {
+      clearError();
+    }
+  }, [email, password, clearError]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (!email || !password) {
       return;
     }
+    
+    console.log('Login form submitted');
     setIsLoading(true);
+    
     try {
       await login(email, password);
+      console.log('Login successful, navigating to dashboard');
       navigate('/');
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('Login error in component:', error);
+      // Error is already handled in AuthContext
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleGoogleLogin = async () => {
+    console.log('Google login button clicked');
     setIsLoading(true);
+    
     try {
       await loginWithGoogle();
+      console.log('Google login successful, navigating to dashboard');
       navigate('/');
     } catch (error) {
-      console.error('Google login error:', error);
+      console.error('Google login error in component:', error);
+      // Error is already handled in AuthContext
     } finally {
       setIsLoading(false);
     }
@@ -49,44 +70,80 @@ const Login = () => {
               Create account
             </Link>
           </div>
-          <div className="auth-form-content">
-            <h1>Sign in to your account</h1>
-            <p>Enter your details below to sign in</p>
-            {error && <p className="auth-error">{error}</p>}
-            <form onSubmit={handleSubmit}>
+
+          <form className="auth-form" onSubmit={handleSubmit}>
+            <h2>Welcome back</h2>
+            <p className="auth-subtitle">Sign in to continue to NextStep</p>
+            
+            {error && (
+              <div className="error-message" style={{ 
+                backgroundColor: '#fee', 
+                color: '#c33', 
+                padding: '10px', 
+                borderRadius: '4px', 
+                marginBottom: '15px',
+                border: '1px solid #fcc'
+              }}>
+                {error}
+              </div>
+            )}
+
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
               <input
                 type="email"
+                id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@example.com"
+                placeholder="Enter your email"
                 required
-                className="auth-input"
+                disabled={isLoading}
               />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
               <input
                 type="password"
+                id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
+                placeholder="Enter your password"
                 required
-                className="auth-input"
+                disabled={isLoading}
               />
-              <button type="submit" disabled={isLoading} className="auth-btn-primary">
-                {isLoading ? 'Signing In...' : 'Sign In'}
-              </button>
-            </form>
-            <div className="auth-divider">
-              <span>OR CONTINUE WITH</span>
             </div>
-            <button onClick={handleGoogleLogin} disabled={isLoading} className="auth-btn-secondary">
-              <i className="fab fa-google"></i>
-              Google
+
+            <button 
+              type="submit" 
+              className="auth-button primary"
+              disabled={isLoading || !email || !password}
+            >
+              {isLoading ? 'Signing in...' : 'Sign in'}
             </button>
-            <p className="auth-legal">
-              By clicking continue, you agree to our{' '}
-              <Link to="/terms" className="auth-link">Terms of Service</Link> and{' '}
-              <Link to="/privacy" className="auth-link">Privacy Policy</Link>.
-            </p>
-          </div>
+
+            <div className="auth-divider">
+              <span>or</span>
+            </div>
+
+            <button 
+              type="button" 
+              onClick={handleGoogleLogin}
+              className="auth-button google"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Signing in...' : (
+                <>
+                  <img src="/google-icon.svg" alt="Google" width="20" height="20" />
+                  Continue with Google
+                </>
+              )}
+            </button>
+
+            <div className="auth-links">
+              <Link to="/register">Don't have an account? Sign up</Link>
+            </div>
+          </form>
         </div>
       </div>
     </div>

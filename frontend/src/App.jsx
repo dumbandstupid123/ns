@@ -16,6 +16,7 @@ import Quote from './components/Quote';     // Import new component
 import ResourceStatus from './components/ResourceStatus'; // Import new component
 import WaveformBackground from './components/WaveformBackground'; // Import new component
 import HelpChatbot from './components/HelpChatbot'; // Import chatbot component
+import FirebaseTest from './components/FirebaseTest'; // Import Firebase test component
 import './App.css';
 
 const Dashboard = ({ showHelpChat, setShowHelpChat }) => {
@@ -114,6 +115,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/firebase-test" element={<FirebaseTest />} />
           <Route path="/*" element={
             <ProtectedRoute>
               <div className="app-container">

@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -14,8 +14,26 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+let app;
+let auth;
 
-// Initialize Firebase Authentication and get a reference to the service
-export const auth = getAuth(app);
+try {
+  app = initializeApp(firebaseConfig);
+  console.log("Firebase app initialized successfully");
+  
+  // Initialize Firebase Authentication and get a reference to the service
+  auth = getAuth(app);
+  console.log("Firebase auth initialized successfully");
+  
+  // For development - uncomment the next lines if using Firebase Auth emulator
+  // if (import.meta.env.DEV && !auth._delegate._config.emulator) {
+  //   connectAuthEmulator(auth, "http://localhost:9099");
+  // }
+  
+} catch (error) {
+  console.error("Firebase initialization error:", error);
+  throw error;
+}
+
+export { auth };
 export default app; 
