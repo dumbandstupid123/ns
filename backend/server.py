@@ -14,6 +14,8 @@ from rag_resource_matcher import RAGResourceMatcher
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Force Railway redeploy - Updated: 2025-01-15 01:23:00
+
 # Create FastAPI app
 app = FastAPI()
 
