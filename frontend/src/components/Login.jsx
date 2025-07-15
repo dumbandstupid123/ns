@@ -8,20 +8,23 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { login, loginWithGoogle, error } = useAuth();
+  const { login, loginWithGoogle, bypassLogin, error } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
+      alert('Please enter both email and password');
       return;
     }
     setIsLoading(true);
     try {
+      console.log('Form submitted with:', { email, password });
       await login(email, password);
       navigate('/');
     } catch (error) {
       console.error('Login error:', error);
+      alert('Login failed: ' + error.message);
     } finally {
       setIsLoading(false);
     }
@@ -34,9 +37,17 @@ const Login = () => {
       navigate('/');
     } catch (error) {
       console.error('Google login error:', error);
+      alert('Google login failed: ' + error.message);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // TEMPORARY: Bypass login for testing
+  const handleBypassLogin = () => {
+    console.log('Using bypass login');
+    bypassLogin();
+    navigate('/');
   };
 
   return (
@@ -49,43 +60,98 @@ const Login = () => {
               Create account
             </Link>
           </div>
+          
           <div className="auth-form-content">
-            <h1>Sign in to your account</h1>
-            <p>Enter your details below to sign in</p>
-            {error && <p className="auth-error">{error}</p>}
-            <form onSubmit={handleSubmit}>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@example.com"
-                required
-                className="auth-input"
-              />
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                required
-                className="auth-input"
-              />
-              <button type="submit" disabled={isLoading} className="auth-btn-primary">
-                {isLoading ? 'Signing In...' : 'Sign In'}
+            <h2>Welcome back</h2>
+            <p>Sign in to your account</p>
+
+            {error && (
+              <div className="error-message" style={{
+                background: '#fee', 
+                color: '#c33', 
+                padding: '10px', 
+                borderRadius: '4px', 
+                marginBottom: '15px'
+              }}>
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="auth-form">
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+
+              <button 
+                type="submit" 
+                className="auth-button primary"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Signing in...' : 'Sign in'}
               </button>
             </form>
+
             <div className="auth-divider">
-              <span>OR CONTINUE WITH</span>
+              <span>or</span>
             </div>
-            <button onClick={handleGoogleLogin} disabled={isLoading} className="auth-btn-secondary">
-              <i className="fab fa-google"></i>
-              Google
+
+            <button 
+              onClick={handleGoogleLogin}
+              className="auth-button google"
+              disabled={isLoading}
+            >
+              Continue with Google
             </button>
-            <p className="auth-legal">
-              By clicking continue, you agree to our{' '}
-              <Link to="/terms" className="auth-link">Terms of Service</Link> and{' '}
-              <Link to="/privacy" className="auth-link">Privacy Policy</Link>.
-            </p>
+
+            {/* TEMPORARY BYPASS BUTTON - Remove in production */}
+            <div style={{ marginTop: '20px', padding: '10px', background: '#fff3cd', borderRadius: '4px' }}>
+              <p style={{ fontSize: '12px', color: '#856404', margin: '0 0 10px 0' }}>
+                🚧 TESTING MODE: Skip authentication
+              </p>
+              <button 
+                onClick={handleBypassLogin}
+                style={{
+                  background: '#ffc107',
+                  color: '#212529',
+                  border: 'none',
+                  padding: '8px 16px',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '14px'
+                }}
+              >
+                Skip Login (Testing)
+              </button>
+            </div>
+
+            <div className="auth-footer">
+              <p>
+                Don't have an account?{' '}
+                <Link to="/register" className="auth-link">
+                  Sign up
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </div>

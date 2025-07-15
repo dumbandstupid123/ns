@@ -26,11 +26,20 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Debug: Log Firebase auth state
+  useEffect(() => {
+    console.log('Firebase Auth initialized:', auth);
+    console.log('Firebase Auth currentUser:', auth.currentUser);
+  }, []);
+
   // Sign up with email and password
   const signup = async (email, password, displayName) => {
     try {
       setError(null);
+      console.log('Attempting signup with:', email);
+      
       const { user } = await createUserWithEmailAndPassword(auth, email, password);
+      console.log('Signup successful:', user);
       
       // Update user profile with display name
       if (displayName) {
@@ -39,6 +48,7 @@ export const AuthProvider = ({ children }) => {
       
       return user;
     } catch (error) {
+      console.error('Signup error:', error);
       setError(error.message);
       throw error;
     }
@@ -48,9 +58,14 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       setError(null);
+      console.log('Attempting login with:', email);
+      
       const { user } = await signInWithEmailAndPassword(auth, email, password);
+      console.log('Login successful:', user);
+      
       return user;
     } catch (error) {
+      console.error('Login error:', error);
       setError(error.message);
       throw error;
     }
@@ -60,10 +75,15 @@ export const AuthProvider = ({ children }) => {
   const loginWithGoogle = async () => {
     try {
       setError(null);
+      console.log('Attempting Google login');
+      
       const provider = new GoogleAuthProvider();
       const { user } = await signInWithPopup(auth, provider);
+      console.log('Google login successful:', user);
+      
       return user;
     } catch (error) {
+      console.error('Google login error:', error);
       setError(error.message);
       throw error;
     }
@@ -74,7 +94,9 @@ export const AuthProvider = ({ children }) => {
     try {
       setError(null);
       await signOut(auth);
+      console.log('Logout successful');
     } catch (error) {
+      console.error('Logout error:', error);
       setError(error.message);
       throw error;
     }
@@ -85,23 +107,34 @@ export const AuthProvider = ({ children }) => {
     try {
       setError(null);
       await sendPasswordResetEmail(auth, email);
+      console.log('Password reset email sent');
     } catch (error) {
+      console.error('Password reset error:', error);
       setError(error.message);
       throw error;
     }
   };
 
-  // Get current user's ID token
-  const getIdToken = async () => {
-    if (currentUser) {
-      return await currentUser.getIdToken();
-    }
-    return null;
+  // TEMPORARY BYPASS FOR TESTING - Remove this in production
+  const bypassLogin = () => {
+    console.log('BYPASS: Setting fake user for testing');
+    setCurrentUser({
+      uid: 'test-user-123',
+      email: 'test@example.com',
+      displayName: 'Test User'
+    });
+    setLoading(false);
   };
 
   useEffect(() => {
+    console.log('Setting up auth state listener');
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log('Auth state changed:', user);
       setCurrentUser(user);
+      setLoading(false);
+    }, (error) => {
+      console.error('Auth state change error:', error);
+      setError(error.message);
       setLoading(false);
     });
 
@@ -110,19 +143,19 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     currentUser,
-    loading,
-    error,
     signup,
     login,
     loginWithGoogle,
     logout,
     resetPassword,
-    getIdToken
+    bypassLogin, // TEMPORARY - Remove in production
+    error,
+    loading
   };
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 }; 
