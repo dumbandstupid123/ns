@@ -887,11 +887,28 @@ async def get_livekit_token(name: str):
 @app.get('/health')
 async def health_check():
     """Health check endpoint for deployment platforms."""
-    return {
-        "status": "healthy",
-        "rag_matcher_initialized": rag_matcher is not None,
-        "timestamp": datetime.now().isoformat()
-    }
+    try:
+        # Basic health check
+        health_status = {
+            "status": "healthy",
+            "timestamp": datetime.now().isoformat(),
+            "rag_matcher_initialized": rag_matcher is not None
+        }
+        
+        # If RAG matcher is not initialized, still return healthy but with warning
+        if rag_matcher is None:
+            health_status["status"] = "starting"
+            health_status["warning"] = "RAG matcher still initializing"
+            
+        return health_status
+        
+    except Exception as e:
+        logger.error(f"Health check error: {e}")
+        return {
+            "status": "unhealthy",
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
+        }
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5001))
