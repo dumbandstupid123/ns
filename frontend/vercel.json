@@ -1,8 +1,15 @@
 {
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "devCommand": "npm run dev",
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://your-backend-domain.railway.app/api/$1"
+      "destination": "https://YOUR_RAILWAY_BACKEND_URL_HERE.railway.app/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
@@ -12,8 +19,19 @@
         {
           "key": "Access-Control-Allow-Origin",
           "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
         }
       ]
     }
-  ]
+  ],
+  "env": {
+    "VITE_BACKEND_URL": "https://YOUR_RAILWAY_BACKEND_URL_HERE.railway.app"
+  }
 } 

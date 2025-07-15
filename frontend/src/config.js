@@ -1,6 +1,16 @@
-export const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://your-railway-app-name.railway.app'  // Replace with your Railway URL
-  : 'http://localhost:5001';
+// Get the backend URL from environment variables or fallback
+const getBackendURL = () => {
+  // For Vercel deployment
+  if (process.env.NODE_ENV === 'production') {
+    return process.env.REACT_APP_BACKEND_URL || 
+           process.env.VITE_BACKEND_URL || 
+           'https://YOUR_RAILWAY_BACKEND_URL_HERE.railway.app'; // Replace this with your actual Railway URL
+  }
+  // For local development
+  return 'http://localhost:5001';
+};
+
+export const API_BASE_URL = getBackendURL();
 
 export const API_ENDPOINTS = {
   ADD_CLIENT: `${API_BASE_URL}/api/add-client`,
@@ -8,6 +18,6 @@ export const API_ENDPOINTS = {
   DELETE_CLIENT: (clientId) => `${API_BASE_URL}/api/clients/${clientId}`,
   GET_TOKEN: `${API_BASE_URL}/api/get`,
   GET_RESOURCES: `${API_BASE_URL}/api/resources`,
-  SEND_REFERRAL: `${API_BASE_URL}/api/send-referral`,
-  UPDATE_RESOURCE: (name) => `${API_BASE_URL}/api/resources/${encodeURIComponent(name)}`
+  SEARCH_RESOURCES: `${API_BASE_URL}/api/search-resources`,
+  MATCH_RESOURCES: `${API_BASE_URL}/api/match-resources`
 }; 
