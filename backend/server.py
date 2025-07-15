@@ -621,6 +621,9 @@ async def get_dashboard_resource_status():
 async def help_chatbot(request_data: Dict[str, Any]):
     """Help chatbot endpoint for platform assistance."""
     try:
+        if not rag_matcher:
+            raise HTTPException(status_code=500, detail="RAG Resource Matcher not initialized")
+            
         message = request_data.get('message', '')
         context = request_data.get('context', 'help_chatbot')
         
@@ -655,17 +658,14 @@ COMMON TASKS:
 Answer questions clearly and concisely. If you don't know something specific about the platform, acknowledge it and suggest alternative ways to get help. Be friendly and professional."""
 
         # Use the existing LLM from the RAG matcher
-        from langchain_openai import ChatOpenAI
         from langchain_core.messages import HumanMessage, SystemMessage
-        
-        llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.7)
         
         messages = [
             SystemMessage(content=system_prompt),
             HumanMessage(content=message)
         ]
         
-        response = llm.invoke(messages)
+        response = rag_matcher.llm.invoke(messages)
         
         return {
             "response": response.content,
@@ -682,6 +682,9 @@ Answer questions clearly and concisely. If you don't know something specific abo
 async def voice_assistant(request_data: Dict[str, Any]):
     """Advanced voice assistant endpoint with comprehensive platform knowledge."""
     try:
+        if not rag_matcher:
+            raise HTTPException(status_code=500, detail="RAG Resource Matcher not initialized")
+            
         message = request_data.get('message', '')
         context = request_data.get('context', 'voice_assistant')
         conversation_history = request_data.get('conversation_history', [])
@@ -734,10 +737,7 @@ PLATFORM FEATURES YOU KNOW:
 Always be concise, helpful, and sound like a real person having a conversation."""
 
         # Use the existing LLM from the RAG matcher
-        from langchain_openai import ChatOpenAI
         from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
-        
-        llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.8)
         
         # Build conversation context
         messages = [SystemMessage(content=system_prompt)]
@@ -753,7 +753,7 @@ Always be concise, helpful, and sound like a real person having a conversation."
         messages.append(HumanMessage(content=message))
         
         # Create the chat completion
-        response = llm.invoke(messages)
+        response = rag_matcher.llm.invoke(messages)
         
         return {
             "response": response.content,
