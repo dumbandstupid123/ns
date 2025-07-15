@@ -24,6 +24,16 @@
   --background: #f3f6fc;
   --card-background: #ffffff;
   --border-color: #e2e8f0;
+  --hover-bg: #f8fafc;
+  --primary-light-blue: #e0f2fe;
+  --disabled-bg: #9ca3af;
+  
+  /* Dynamic Dashboard Colors */
+  --dashboard-bg-1: #f0f4ff;
+  --dashboard-bg-2: #f0f9ff;
+  --dashboard-bg-3: #f3f4f6;
+  --dashboard-bg-4: #fdf2f8;
+  --dashboard-bg-5: #f0fdf4;
   
   /* Sidebar Colors */
   --sidebar-bg: #1a4789;
@@ -39,8 +49,10 @@
   /* Border Radius */
   --radius-sm: 6px;
   --radius: 8px;
+  --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
+  --radius-full: 9999px;
 }
 
 * {
@@ -51,7 +63,8 @@
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  background: var(--background);
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9, #e2e8f0);
+  background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.6;
   min-height: 100vh;
@@ -176,8 +189,17 @@ body {
 }
 
 .nav-link i {
-  font-size: 1.25rem;
-  width: 1.5rem;
+  font-size: 1.5rem;
+  width: 2rem;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 .badge {
@@ -199,70 +221,380 @@ body {
 .main-content {
   flex: 1;
   padding: 2rem;
-  background: var(--background);
+  background-color: var(--background);
   margin-left: 280px; /* Match sidebar width */
   min-height: 100vh;
   width: calc(100% - 280px);
+  position: relative;
+  z-index: 1;
 }
 
-/* Dashboard */
-.dashboard {
-  max-width: 1400px;
+/* --- Professional Dashboard Redesign --- */
+.dashboard-pro {
+  max-width: 1600px;
   margin: 0 auto;
+  background: linear-gradient(135deg, var(--dashboard-bg-1), var(--dashboard-bg-2), var(--dashboard-bg-3), var(--dashboard-bg-4), var(--dashboard-bg-5));
+  background-size: 400% 400%;
+  animation: dynamicDashboard 20s ease-in-out infinite;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-lg);
 }
 
 .dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem; /* smaller margin */
+  padding: 1rem 1.5rem;   /* smaller padding */
+  color: white;
+  background: linear-gradient(135deg, var(--success-green), var(--accent-teal));
+  background-size: 200% 200%;
+  border-radius: var(--radius-lg); /* shdcn uses less rounded corners, but let's keep this for the header */
+  animation: movingGradient 15s ease infinite alternate;
+}
+
+@keyframes movingGradient {
+  from { background-position: 0% 50%; }
+  to { background-position: 100% 50%; }
+}
+
+@keyframes dynamicDashboard {
+  0% { background-position: 0% 50%; }
+  20% { background-position: 100% 50%; }
+  40% { background-position: 50% 100%; }
+  60% { background-position: 0% 100%; }
+  80% { background-position: 50% 0%; }
+  100% { background-position: 0% 50%; }
 }
 
 .dashboard-header h1 {
-  font-size: 2rem;
+  font-size: 1.8rem; /* smaller font */
   font-weight: 700;
-  color: var(--text-primary);
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .welcome-text {
-  color: var(--text-secondary);
-  margin-top: 0.5rem;
+  color: var(--light-blue);
+  margin-top: 0.25rem;
+  font-size: 0.9rem; /* smaller font */
+  font-weight: 500;
 }
 
-.header-button {
-  display: inline-flex;
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* Using a 6-column grid for more granular control */
+  gap: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+}
+
+.grid-item-calendar {
+  grid-column: span 3; /* Calendar now takes up 50% of the width */
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.grid-item-todo {
+  grid-column: span 3; /* To-do list also takes up 50% of the width */
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.grid-item-quote {
+  grid-column: span 6; /* Quote banner takes full width */
+}
+
+.grid-item-resource-status {
+  grid-column: span 6; /* Resource status takes full width */
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* User Profile */
+.user-profile {
+  margin: 1rem;
+  margin-top: auto;
+  padding: 1rem;
+  border-top: 1px solid var(--sidebar-hover);
+  position: relative;
+  background: white;
+  border-radius: 12px;
+}
+
+.user-avatar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.user-avatar:hover {
+  background-color: var(--sidebar-hover);
+}
+
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-email {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-dropdown {
+  position: absolute;
+  bottom: 100%;
+  left: 1rem;
+  right: 1rem;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.logout-btn {
+  display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--radius);
-  font-weight: 500;
-  transition: all 0.2s;
+  width: 100%;
+  padding: 0.75rem;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.outline-button {
-  background: transparent;
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
+.logout-btn:hover {
+  background-color: #fee2e2;
+  color: #dc2626;
 }
 
-.outline-button:hover {
-  background: var(--card-background);
-  border-color: var(--accent-blue);
-  color: var(--accent-blue);
+.logout-btn i {
+  font-size: 1rem;
 }
 
-.primary-button {
-  background: var(--primary-blue);
+/* Loading Container */
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+}
+
+.loading-spinner {
+  text-align: center;
+  color: #4f46e5;
+}
+
+.loading-spinner i {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.loading-spinner p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Floating Help Button */
+.floating-help-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+}
+
+.floating-help-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
+  transition: all 0.3s ease;
+  animation: pulse 2s infinite;
+}
+
+.floating-help-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px rgba(79, 70, 229, 0.4);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(79, 70, 229, 0.6);
+  }
+  100% {
+    box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
+  }
+}
+
+/* Help Chat Popup */
+.help-chat-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  backdrop-filter: blur(5px);
+}
+
+.help-chat-popup {
+  width: 90%;
+  max-width: 500px;
+  height: 80vh;
+  max-height: 600px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.help-chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.help-chat-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.help-chat-header i {
+  font-size: 1.1rem;
+}
+
+.close-help-btn {
+  background: rgba(255, 255, 255, 0.2);
   border: none;
   color: white;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
 }
 
-.primary-button:hover {
-  background: var(--dark-blue);
+.close-help-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
-/* Stats Grid */
+.help-chat-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.help-chatbot-popup-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Removed stat-card-pro styles as they're no longer needed */
+
+/* --- End Professional Dashboard Redesign --- */
+
+/* Remove obsolete grid styles */
+.grid-item-large,
+.grid-item,
+.grid-item-double {
+  display: none;
+}
+
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

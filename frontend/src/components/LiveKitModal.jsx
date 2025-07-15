@@ -3,7 +3,8 @@ import { LiveKitRoom, RoomAudioRenderer } from "@livekit/components-react";
 import "@livekit/components-styles";
 import SimpleVoiceAssistant from "./SimpleVoiceAssistant";
 
-const LIVEKIT_URL = "wss://momos-ikbxpsxu.livekit.cloud";
+const LIVEKIT_URL = "wss://launch-65q9o9la.livekit.cloud";
+const API_URL = "http://127.0.0.1:5001"; // Use 127.0.0.1 instead of localhost
 
 const LiveKitModal = ({ setShowSupport }) => {
   const [isSubmittingName, setIsSubmittingName] = useState(true);
@@ -15,7 +16,7 @@ const LiveKitModal = ({ setShowSupport }) => {
     try {
       console.log("Fetching token for user:", userName);
       const response = await fetch(
-        `http://localhost:5001/api/get?name=${encodeURIComponent(userName)}`
+        `${API_URL}/api/get?name=${encodeURIComponent(userName)}`
       );
       if (!response.ok) {
         throw new Error(`Token fetch failed: ${response.status}`);

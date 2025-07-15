@@ -1,89 +1,122 @@
-# LiveKit AI Car Call Centre
+# Housing Resource Assistant
 
-A modern web application that provides an AI-powered call center interface for car-related inquiries and support.
+A modern AI-powered housing counselor application that helps social workers match clients with appropriate housing resources using AI analysis.
 
 ## Features
 
-- **Dashboard**: Modern interface with client management and call statistics
-- **AI Assistant**: Real-time voice and chat interface for car-related queries
-- **Client Management**: Track and manage client information
-- **Resource Management**: Manage and access car-related resources and documentation
-- **LiveKit Integration**: Real-time video and audio communication
+- **AI Resource Matching**: Intelligent matching of clients to housing resources using semantic analysis
+- **Voice Assistant**: LiveKit-powered voice chat with AI assistant
+- **Client Management**: Add and manage client information
+- **Resource Browser**: Browse and search available housing resources
+- **Modern Dashboard**: Clean interface for housing counselors
+
+## Architecture
+
+This application consists of:
+1. **FastAPI Backend** (`backend/server.py`) - Main API server on port 5001
+2. **React Frontend** - Modern web interface on port 5173
+3. **LiveKit Agent** (`backend/agent.py`) - Voice assistant on port 8082
 
 ## Setup Instructions
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/dumbandstupid123/ns.git
-   cd ns
-   ```
+### Prerequisites
+- Python 3.8+
+- Node.js 16+
+- OpenAI API key
+- LiveKit credentials
 
-2. Set up the backend:
-   ```bash
-   cd backend
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   pip install -r requirements.txt
-   cp .env.example .env  # Create your environment file
-   ```
+### Backend Setup
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
 
-3. Set up the frontend:
-   ```bash
-   cd frontend
-   npm install
-   cp .env.example .env  # Create your environment file
-   ```
+### Frontend Setup
+```bash
+cd frontend
+npm install
+```
 
-4. Configure environment variables:
-   - Backend (.env):
-     - Set your OpenAI API key
-     - Configure LiveKit credentials
-     - Adjust other settings as needed
-   - Frontend (.env):
-     - Set the LiveKit URL
-     - Configure API URL if needed
+### Environment Variables
+Create a `.env` file in the root directory:
+```env
+OPENAI_API_KEY=your_openai_api_key_here
+```
 
-5. Start the servers:
-   - Backend:
-     ```bash
-     cd backend
-     python server.py
-     ```
-   - Frontend:
-     ```bash
-     cd frontend
-     npm run dev
-     ```
+### Running the Application
 
-6. Access the application at http://localhost:5173
+1. **Start the Backend API** (Terminal 1):
+```bash
+cd backend
+source venv/bin/activate
+python server.py
+```
+
+2. **Start the LiveKit Agent** (Terminal 2):
+```bash
+cd backend
+source venv/bin/activate
+python agent.py
+```
+
+3. **Start the Frontend** (Terminal 3):
+```bash
+cd frontend
+npm run dev
+```
+
+4. **Access the Application**:
+   - Main App: http://localhost:5173
+   - API Health: http://localhost:5001/api/health
 
 ## Project Structure
 
 ```
-LiveKit-AI-Car-Call-Centre/
+clean-repo/
 ├── backend/                 # Python backend
-│   ├── agent.py            # AI agent implementation
-│   ├── api.py              # API endpoints
-│   ├── db_driver.py        # Database operations
-│   ├── prompts.py          # AI prompts
+│   ├── server.py           # Main FastAPI server
+│   ├── agent.py            # LiveKit voice agent
+│   ├── resource_parser.py  # Resource data parser
+│   ├── api.py              # Assistant function handlers
+│   ├── prompts.py          # AI prompts and messages
 │   ├── requirements.txt    # Python dependencies
-│   └── server.py           # Main server file
+│   ├── resources.txt       # Raw resource data
+│   ├── mock_clients.json   # Sample client data
+│   └── clients.json        # Real client data storage
 ├── frontend/               # React frontend
-│   ├── src/               # Source code
-│   │   ├── components/    # React components
-│   │   └── App.jsx        # Main application
-│   └── package.json       # Node.js dependencies
-└── docs/                  # Documentation
+│   ├── src/
+│   │   ├── components/     # React components
+│   │   ├── App.jsx         # Main app component
+│   │   └── main.jsx        # Entry point
+│   ├── package.json        # Node dependencies
+│   └── index.html          # HTML template
+├── venv/                   # Python virtual environment
+└── README.md               # This file
 ```
 
-## Contributing
+## API Endpoints
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+- `GET /api/health` - Health check
+- `GET /api/resources` - Get all resources
+- `GET /api/clients` - Get all clients
+- `POST /api/clients` - Add new client
+- `GET /api/get` - Get LiveKit token for voice chat
 
-## License
+## Key Features
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+### Voice Assistant
+- Real-time voice interaction using LiveKit
+- AI-powered responses using GPT-4
+- Client lookup and case history retrieval
+- Resource information and recommendations
+
+## Development
+
+The application is designed to be modular and extensible. The main components are:
+
+1. **Voice Agent**: Provides conversational interface
+2. **Frontend Dashboard**: Modern React interface for counselors
+
+All unused code and duplicate applications have been removed for simplicity.

@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      # LiveKit variables (coming soon)
+      # - LIVEKIT_API_KEY=${LIVEKIT_API_KEY}
+      # - LIVEKIT_API_SECRET=${LIVEKIT_API_SECRET}
+      # - LIVEKIT_URL=${LIVEKIT_URL}
+    volumes:
+      - ./backend/resources:/app/resources
+      - ./backend/clients.json:/app/clients.json
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - nextstep-network
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - nextstep-network
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.prod.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/ssl
+      - /etc/letsencrypt:/etc/letsencrypt
+    depends_on:
+      - frontend
+      - backend
+    restart: unless-stopped
+    networks:
+      - nextstep-network
+
+  # Optional: Database for production
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=nextstep
+      - POSTGRES_USER=nextstep
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - nextstep-network
+    profiles:
+      - database
+
+  # Optional: Redis for caching
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    networks:
+      - nextstep-network
+    profiles:
+      - cache
+
+networks:
+  nextstep-network:
+    driver: bridge
+
+volumes:
+  postgres_data: 

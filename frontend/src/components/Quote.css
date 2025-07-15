@@ -1,0 +1,37 @@
+/* --- Quote Widget --- */
+.quote-widget {
+  background: linear-gradient(135deg, var(--success-green), var(--accent-teal));
+  border-radius: var(--radius-lg);
+  padding: 1.25rem; /* Smaller padding */
+  box-shadow: var(--shadow-md);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+}
+
+.quote-content {
+  text-align: center;
+}
+
+.quote-content i {
+  font-size: 1rem; /* Smaller icon */
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.5rem; /* Smaller margin */
+}
+
+.quote-text {
+  font-size: 0.9rem; /* Smaller font */
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 0 0 0.75rem 0; /* Smaller margin */
+  font-style: italic;
+}
+
+.quote-author {
+  font-size: 0.8rem; /* Smaller font */
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}

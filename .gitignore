@@ -1,0 +1,73 @@
+# Environment files
+.env
+.env.local
+.env.production
+.env.development
+
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Python virtual environments
+venv/
+*/venv/
+__pycache__/
+*/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Build outputs
+dist/
+build/
+*/dist/
+*/build/
+
+# Logs
+*.log
+*.logs
+server.log
+backend.log
+frontend.log
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Backup files
+*backup*
+*_backup_*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+
+# Large files
+ngrok
+ngrok-old.zip
+
+# SSL certificates
+ssl/
+*.pem
+*.key
+*.crt
+
+# Resource backups (keep main structured_resources.json)
+structured_resources_backup*.json
+
+# Tunnel logs
+*tunnel.log
+*cloudflare.log
+*localhostrun.log
+*serveo.log 

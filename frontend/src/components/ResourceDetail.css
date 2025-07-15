@@ -1,0 +1,265 @@
+/* --- Base Styles for Professional Resource Detail Page --- */
+.resource-detail-pro {
+    background-color: #ffffff;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #1d1d1f;
+    padding: 1rem 2rem 4rem 2rem;
+}
+
+/* --- Header --- */
+.detail-header-pro {
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+.back-button-pro {
+    background: #f5f5f7;
+    border: none;
+    color: #06c;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0.75rem 1.5rem;
+    border-radius: 980px; /* Apple-style pill shape */
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.back-button-pro:hover {
+    background-color: #e5e5e7;
+}
+
+/* --- Title Section --- */
+.detail-title-section {
+    padding: 3rem 2rem; /* Increased padding */
+    text-align: left;
+    margin-bottom: 3rem;
+    background: linear-gradient(135deg, var(--primary-blue, #1a4789), var(--accent-teal, #0d9488), var(--secondary-blue, #2563eb));
+    background-size: 200% 200%; /* Make background larger to allow for movement */
+    border-radius: 20px; /* Match card radius */
+    color: white;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    animation: movingGradient 10s ease infinite; /* Apply the animation */
+}
+
+@keyframes movingGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.program-type-pro {
+    color: rgba(255, 255, 255, 0.8); /* Lighter color for contrast */
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail-title-section h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #ffffff; /* White text */
+    margin: 0;
+    line-height: 1.1;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+}
+
+.resource-name-pro {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.9); /* Lighter color for contrast */
+    margin-top: 0.75rem;
+    font-weight: 500;
+}
+
+/* --- Main Content Layout --- */
+.detail-main-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    align-items: flex-start;
+}
+
+.detail-left-column, .detail-right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* --- Card Styles --- */
+.detail-card {
+    background-color: #f5f5f7;
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.card-header {
+    border-bottom: 1px solid #d2d2d7;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.card-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1d1d1f;
+    margin: 0;
+}
+
+.card-header i {
+    color: #06c;
+}
+
+/* --- Detail Item (Icon + Label + Value) --- */
+.detail-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.detail-icon {
+    font-size: 1.1rem;
+    color: #6e6e73;
+    width: 20px;
+    text-align: center;
+    margin-top: 0.2rem;
+}
+
+.detail-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-label {
+    font-size: 0.9rem;
+    color: #6e6e73;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.detail-value {
+    font-size: 1.05rem;
+    color: #1d1d1f;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+/* --- Specific Card Grids & Styles --- */
+.key-info-grid, .eligibility-grid, .intake-grid, .availability-pro-grid, .transportation-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.services-pro {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #1d1d1f;
+}
+
+.key-features-pro {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #1d1d1f;
+}
+
+.transportation-details, .amenities-details {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #d2d2d7;
+}
+
+.transportation-details h3, .amenities-details h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1d1d1f;
+    margin-bottom: 0.75rem;
+}
+
+.transportation-details p, .amenities-details p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #1d1d1f;
+}
+
+/* --- Right Column: Map & Contact --- */
+.map-card {
+    background-color: #f5f5f7;
+}
+
+.map-container {
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    border: 1px solid #d2d2d7;
+}
+
+.map-container iframe {
+    display: block;
+    border: none;
+}
+
+.location-details .detail-item {
+    align-items: center;
+}
+
+.contact-pro-card .detail-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid #d2d2d7;
+}
+.contact-pro-card .detail-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.contact-pro-card .detail-item:first-child {
+    padding-top: 0;
+}
+
+
+/* --- Loading & Error States --- */
+.detail-loading, .detail-error {
+    text-align: center;
+    padding: 5rem;
+    font-size: 1.2rem;
+    color: #6e6e73;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 1024px) {
+    .detail-main-content {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-right-column {
+        grid-row-start: 1; /* Move map and contact to the top on smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .resource-detail-pro {
+        padding: 1rem;
+    }
+
+    .detail-title-section h1 {
+        font-size: 2.2rem;
+    }
+    .resource-name-pro {
+        font-size: 1.2rem;
+    }
+
+    .key-info-grid, .eligibility-grid, .intake-grid, .availability-pro-grid, .transportation-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+} 

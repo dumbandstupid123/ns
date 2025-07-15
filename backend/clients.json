@@ -1,0 +1,341 @@
+{
+  "clients": [
+    {
+      "id": 1,
+      "firstName": "Maria",
+      "lastName": "Garcia",
+      "dateOfBirth": "1997-07-21",
+      "gender": "Female",
+      "family_status": "Single Mother",
+      "employment_status": "Unemployed",
+      "income_level": 8000,
+      "is_veteran": false,
+      "has_disability": false,
+      "needs": [
+        "domestic violence support",
+        "housing assistance",
+        "childcare"
+      ],
+      "notes": "Client Name: Maria Garcia. Age: 28. Gender: Female. Family Status: Single Mother. Employment: Unemployed. Income: Approx. $8000/year. Key Needs: domestic violence support, housing assistance, childcare. Summary: Fleeing an abusive partner, needs safe housing for herself and her 2-year-old son.",
+      "email": "maria.garcia@example.com",
+      "phoneNumber": "832-555-2489",
+      "address": "291 Main St, Houston, TX 77005",
+      "resources": [
+        {
+          "resource_id": "res_magnificat_houses_inc_youth_engagement_center",
+          "resource_name": "Magnificat Houses Inc",
+          "organization": "Magnificat Houses Inc",
+          "program_type": "Youth Engagement Center",
+          "contact": "713-529-4231, info@mhihouston.org",
+          "services": "Customized to guest needs during intake - includes helping get ID/Operation ID, housing assessments, various support services",
+          "category": "housing",
+          "status": "in_progress",
+          "added_date": "2025-07-14T08:23:41.878237",
+          "last_updated": "2025-07-14T08:24:17.136486",
+          "notes": "",
+          "ai_reasoning": "Added from Resource Center browse - Magnificat Houses Inc offers Youth Engagement Center"
+        }
+      ],
+      "lastUpdated": "2025-07-14T08:24:17.136501"
+    },
+    {
+      "id": 2,
+      "firstName": "John",
+      "lastName": "\"Smitty\" Smith",
+      "dateOfBirth": "1970-07-28",
+      "gender": "Male",
+      "family_status": "Single",
+      "employment_status": "Employed part-time",
+      "income_level": 15000,
+      "is_veteran": true,
+      "has_disability": false,
+      "needs": [
+        "veteran services",
+        "mental health support",
+        "substance abuse treatment"
+      ],
+      "notes": "Client Name: John \"Smitty\" Smith. Age: 55. Gender: Male. Family Status: Single. Employment: Employed part-time. Income: Approx. $15000/year. Veteran Status: Yes. Key Needs: veteran services, mental health support, substance abuse treatment. Summary: Army veteran struggling with PTSD and alcohol dependency. Works odd jobs but needs stable employment.",
+      "email": "john.\"smitty\" smith@example.com",
+      "phoneNumber": "832-555-6474",
+      "address": "7814 Main St, Houston, TX 77005"
+    },
+    {
+      "id": 3,
+      "firstName": "Emily",
+      "lastName": "White",
+      "dateOfBirth": "2017-07-16",
+      "gender": "Female",
+      "family_status": "In foster care",
+      "employment_status": "Not applicable",
+      "income_level": 0,
+      "is_veteran": false,
+      "has_disability": false,
+      "needs": [
+        "child welfare services",
+        "educational support",
+        "therapy"
+      ],
+      "notes": "Client Name: Emily White. Age: 8. Gender: Female. Family Status: In foster care. Employment: Not applicable. Key Needs: child welfare services, educational support, therapy. Summary: Recently placed in foster care due to parental neglect. Needs a stable, supportive environment.",
+      "email": "emily.white@example.com",
+      "phoneNumber": "832-555-6650",
+      "address": "4728 Main St, Houston, TX 77005"
+    },
+    {
+      "id": 4,
+      "firstName": "David",
+      "lastName": "Johnson",
+      "dateOfBirth": "1953-08-01",
+      "gender": "Male",
+      "family_status": "Widowed",
+      "employment_status": "Retired",
+      "income_level": 12000,
+      "is_veteran": false,
+      "has_disability": true,
+      "needs": [
+        "senior housing",
+        "medical care",
+        "meal delivery"
+      ],
+      "notes": "Client Name: David Johnson. Age: 72. Gender: Male. Family Status: Widowed. Employment: Retired. Income: Approx. $12000/year. Disability: Yes. Key Needs: senior housing, medical care, meal delivery. Summary: Lives alone on a fixed income and has mobility issues after a recent fall.",
+      "email": "david.johnson@example.com",
+      "phoneNumber": "832-555-1978",
+      "address": "4212 Main St, Houston, TX 77005"
+    },
+    {
+      "id": 5,
+      "firstName": "Jessica",
+      "lastName": "Rodriguez",
+      "dateOfBirth": "2003-07-20",
+      "gender": "Female",
+      "family_status": "Single",
+      "employment_status": "Student",
+      "income_level": 0,
+      "is_veteran": false,
+      "has_disability": false,
+      "needs": [
+        "lgbtq+ support",
+        "homeless shelter",
+        "job training"
+      ],
+      "notes": "Client Name: Jessica Rodriguez. Age: 22. Gender: Female. Family Status: Single. Employment: Student. Key Needs: lgbtq+ support, homeless shelter, job training. Summary: College student who was kicked out after coming out to her family. Currently homeless.",
+      "email": "jessica.rodriguez@example.com",
+      "phoneNumber": "832-555-8907",
+      "address": "7923 Main St, Houston, TX 77005",
+      "resources": [
+        {
+          "resource_id": "res_9297853178300702303",
+          "resource_name": "Casa Juan Diego - Casa Juan Diego Food Pantry",
+          "organization": "Casa Juan Diego",
+          "program_type": null,
+          "contact": "713-869-7376",
+          "services": "Fresh produce and pantry staples; curbside, walk-in, and indoor service; TEFAP eligible",
+          "category": "food",
+          "status": "completed",
+          "added_date": "2025-07-14T08:37:42.802582",
+          "last_updated": "2025-07-14T08:38:00.263031",
+          "notes": "",
+          "ai_reasoning": "I recommend connecting Jessica with the Casa Juan Diego Food Pantry, as it provides accessible food resources without documentation requirements, which is crucial for her current homeless situation, and aligns with her need for support as a young LGBTQ+ individual navigating this challenging time."
+        }
+      ],
+      "lastUpdated": "2025-07-14T08:38:00.263062"
+    },
+    {
+      "id": 6,
+      "firstName": "Michael",
+      "lastName": "Brown",
+      "dateOfBirth": "1984-07-24",
+      "gender": "Male",
+      "family_status": "Married with children",
+      "employment_status": "Unemployed",
+      "income_level": 0,
+      "is_veteran": false,
+      "has_disability": false,
+      "needs": [
+        "legal aid",
+        "employment services",
+        "financial assistance"
+      ],
+      "notes": "Client Name: Michael Brown. Age: 41. Gender: Male. Family Status: Married with children. Employment: Unemployed. Key Needs: legal aid, employment services, financial assistance. Summary: Recently laid off from a factory job. Facing eviction and needs legal help to navigate the process.",
+      "email": "michael.brown@example.com",
+      "phoneNumber": "832-555-5898",
+      "address": "7018 Main St, Houston, TX 77005"
+    },
+    {
+      "id": 7,
+      "firstName": "Sarah",
+      "lastName": "Miller",
+      "dateOfBirth": "1991-07-23",
+      "gender": "Female",
+      "family_status": "Married",
+      "employment_status": "Employed full-time",
+      "income_level": 45000,
+      "is_veteran": false,
+      "has_disability": false,
+      "needs": [
+        "mental health counseling",
+        "support group"
+      ],
+      "notes": "Client Name: Sarah Miller. Age: 34. Gender: Female. Family Status: Married. Employment: Employed full-time. Income: Approx. $45000/year. Key Needs: mental health counseling, support group. Summary: Struggling with severe postpartum depression after the birth of her second child.",
+      "email": "sarah.miller@example.com",
+      "phoneNumber": "832-555-3406",
+      "address": "4549 Main St, Houston, TX 77005"
+    },
+    {
+      "id": 8,
+      "firstName": "Chris",
+      "lastName": "Davis",
+      "dateOfBirth": "2006-07-19",
+      "gender": "Non-binary",
+      "family_status": "Single",
+      "employment_status": "Unemployed",
+      "income_level": 0,
+      "is_veteran": false,
+      "has_disability": false,
+      "needs": [
+        "transitional housing",
+        "job placement",
+        "mental health support"
+      ],
+      "notes": "Client Name: Chris Davis. Age: 19. Gender: Non-binary. Family Status: Single. Employment: Unemployed. Key Needs: transitional housing, job placement, mental health support. Summary: Aged out of the foster care system and is unprepared for independent living. Experiences anxiety.",
+      "email": "chris.davis@example.com",
+      "phoneNumber": "832-555-5038",
+      "address": "9477 Main St, Houston, TX 77005",
+      "resources": [
+        {
+          "resource_id": "res_project_access_hhh",
+          "resource_name": "Project Access",
+          "organization": "Healthcare for the Homeless \u2013 Houston (HHH)",
+          "program_type": null,
+          "contact": "713-286-6000",
+          "services": "Free transportation to housing service agencies",
+          "category": "transportation",
+          "status": "pending",
+          "added_date": "2025-07-14T08:38:24.270374",
+          "last_updated": "2025-07-14T08:38:24.270392",
+          "notes": "",
+          "ai_reasoning": "I recommend Project Access from Healthcare for the Homeless \u2013 Houston for Chris Davis, as it provides free transportation to housing service agencies without income or disability requirements, which aligns perfectly with their current need for transitional housing and support as they navigate the challenges of independent living after aging out of the foster care system."
+        }
+      ],
+      "lastUpdated": "2025-07-14T08:38:24.270398"
+    },
+    {
+      "id": 9,
+      "firstName": "Robert",
+      "lastName": "Wilson",
+      "dateOfBirth": "1960-07-30",
+      "gender": "Male",
+      "family_status": "Single",
+      "employment_status": "Retired",
+      "income_level": 22000,
+      "is_veteran": true,
+      "has_disability": false,
+      "needs": [
+        "permanent supportive housing",
+        "disability benefits assistance"
+      ],
+      "notes": "Client Name: Robert Wilson. Age: 65. Gender: Male. Family Status: Single. Employment: Retired. Income: Approx. $22000/year. Veteran Status: Yes. Key Needs: permanent supportive housing, disability benefits assistance. Summary: Vietnam veteran with chronic health issues looking for stable, long-term housing.",
+      "email": "robert.wilson@example.com",
+      "phoneNumber": "832-555-4753",
+      "address": "7239 Main St, Houston, TX 77005"
+    },
+    {
+      "id": 10,
+      "firstName": "Linda",
+      "lastName": "Martinez",
+      "dateOfBirth": "2000-07-20",
+      "gender": "Female",
+      "family_status": "Pregnant",
+      "employment_status": "Employed part-time",
+      "income_level": 18000,
+      "is_veteran": false,
+      "has_disability": false,
+      "needs": [
+        "prenatal care",
+        "housing assistance",
+        "WIC enrollment"
+      ],
+      "notes": "Client Name: Linda Martinez. Age: 25. Gender: Female. Family Status: Pregnant. Employment: Employed part-time. Income: Approx. $18000/year. Key Needs: prenatal care, housing assistance, WIC enrollment. Summary: First-time mother working a low-wage job. Needs support to ensure a healthy pregnancy and stable housing.",
+      "email": "linda.martinez@example.com",
+      "phoneNumber": "832-555-5025",
+      "address": "2107 Main St, Houston, TX 77005"
+    },
+    {
+      "firstName": "Sandeep",
+      "lastName": "Ramlochan",
+      "dateOfBirth": "2003-09-18",
+      "gender": "male",
+      "phoneNumber": "8328120913",
+      "email": "sr185@rice.edu",
+      "address": "1605",
+      "city": "Houston",
+      "state": "Texas",
+      "zipCode": "77005-1892",
+      "preferredLanguage": "",
+      "interpreterNeeded": false,
+      "emergencyContact": {
+        "name": "",
+        "phone": "",
+        "relationship": ""
+      },
+      "referralSource": {
+        "type": "hospital",
+        "agencyName": "Legacy Community Health",
+        "otherDetails": "related to housing insecurity"
+      },
+      "presentingConcerns": {
+        "housingInstability": true,
+        "foodInsecurity": true,
+        "unemployment": true,
+        "domesticViolence": false,
+        "mentalHealth": true,
+        "substanceUse": false,
+        "childWelfare": false,
+        "legalIssues": false,
+        "immigrationSupport": false,
+        "medicalNeeds": false,
+        "transportationNeeds": false,
+        "other": false,
+        "otherDescription": ""
+      },
+      "socialHistory": {
+        "householdMembers": "unsheltered",
+        "employmentStatus": "employed",
+        "incomeSources": {
+          "employment": false,
+          "ssiSsdi": false,
+          "tanf": false,
+          "none": false
+        },
+        "housingStatus": "unsheltered",
+        "educationLevel": "",
+        "healthInsurance": {
+          "medicaid": false,
+          "medicare": false,
+          "private": false,
+          "none": false
+        }
+      },
+      "riskAndSafety": {
+        "safeInCurrentEnvironment": false,
+        "experiencingViolence": true,
+        "accessToFood": true,
+        "hasPrimaryCareProvider": false,
+        "childrenInHome": false,
+        "cpsConcerns": false
+      },
+      "consent": {
+        "understoodConfidentiality": true,
+        "consentToServices": true,
+        "clientSignature": "Sandeep Ramlochan",
+        "clientSignatureDate": "2025-08-20",
+        "staffName": "",
+        "staffSignature": "",
+        "staffSignatureDate": ""
+      },
+      "createdAt": "2025-07-14T08:22:21.005275",
+      "lastUpdated": "2025-07-14T08:22:21.005397",
+      "id": 11
+    }
+  ],
+  "next_id": 12
+}

@@ -1,6 +1,17 @@
-livekit-agents[openai,silero,deepgram,turn-detector]~=1.0
-python-dotenv==1.0.0
-flask[async]
-flask==3.0.0
-flask-cors==4.0.0
+fastapi
+faiss-cpu==1.7.4
 uvicorn
+python-dotenv
+langchain
+langchain-openai
+langgraph
+chromadb
+langchain_chroma
+pypdf
+numpy==1.26.4
+beautifulsoup4
+
+# LiveKit dependencies (coming soon - voice assistant feature)
+# livekit-agents
+# livekit-plugins-openai
+# livekit-plugins-silero

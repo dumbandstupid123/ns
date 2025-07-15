@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>Recommendation System API Test</h1>
+    
+    <button onclick="testClients()">Test Get Clients</button>
+    <button onclick="testMatch()">Test Match Resources</button>
+    
+    <div id="results"></div>
+
+    <script>
+        async function testClients() {
+            try {
+                const response = await fetch('http://localhost:5001/api/clients');
+                const data = await response.json();
+                document.getElementById('results').innerHTML = `
+                    <h3>Clients API Test - SUCCESS</h3>
+                    <p>Found ${data.clients.length} clients</p>
+                    <pre>${JSON.stringify(data.clients.slice(0,2), null, 2)}</pre>
+                `;
+            } catch (error) {
+                document.getElementById('results').innerHTML = `
+                    <h3>Clients API Test - ERROR</h3>
+                    <p>${error.message}</p>
+                `;
+            }
+        }
+        
+        async function testMatch() {
+            try {
+                const response = await fetch('http://localhost:5001/api/match-resources', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        client_id: 'client_1',
+                        resource_type: 'housing'
+                    })
+                });
+                const data = await response.json();
+                document.getElementById('results').innerHTML = `
+                    <h3>Match API Test - SUCCESS</h3>
+                    <p>Found ${data.matches.length} matches</p>
+                    <p>Top match: ${data.matches[0].resource.name}</p>
+                    <p>Score: ${data.matches[0].scores.composite}</p>
+                    <pre>${JSON.stringify(data.matches[0], null, 2)}</pre>
+                `;
+            } catch (error) {
+                document.getElementById('results').innerHTML = `
+                    <h3>Match API Test - ERROR</h3>
+                    <p>${error.message}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html> 

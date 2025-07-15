@@ -1,0 +1,87 @@
+/* --- Minimalist Calendar Pro --- */
+.calendar-widget-pro {
+  /* Padding is now handled by the grid container in App.css */
+}
+
+.calendar-header-pro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0; /* Reduced padding */
+  margin-bottom: 0.5rem; /* Reduced margin */
+}
+
+.calendar-month-year {
+  font-weight: 600;
+  font-size: 1rem; /* Smaller font */
+  color: var(--text-primary);
+}
+
+.calendar-nav-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem; /* Reduced padding */
+  color: var(--text-secondary);
+  transition: color 0.2s;
+}
+
+.calendar-nav-btn:hover {
+  color: var(--text-primary);
+}
+
+.days-of-week-grid,
+.calendar-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+}
+
+.day-of-week {
+  font-size: 0.75rem; /* Smaller font */
+  font-weight: 500;
+  color: var(--text-muted);
+  padding-bottom: 0.5rem; /* Reduced padding */
+}
+
+.calendar-day-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 28px; /* Smaller height for day cells */
+  cursor: pointer;
+}
+
+.day-number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 26px; /* Smaller day number circle */
+  height: 26px; /* Smaller day number circle */
+  border-radius: 50%;
+  font-size: 0.8rem; /* Smaller font */
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.calendar-day-cell.disabled .day-number {
+  color: var(--border-color);
+  cursor: default;
+}
+
+.calendar-day-cell:not(.disabled):hover .day-number {
+  background-color: var(--hover-bg);
+}
+
+.calendar-day-cell.today .day-number {
+  background-color: #f0f0f0;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.calendar-day-cell.selected .day-number {
+  background-color: var(--primary-blue);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
