@@ -1,16 +1,18 @@
-fastapi
+fastapi==0.104.1
 faiss-cpu==1.7.4
-uvicorn
-python-dotenv
-langchain
-langchain-openai
-langchain-community
-langgraph
-chromadb
-langchain_chroma
-pypdf
+uvicorn==0.24.0
+python-dotenv==1.0.0
+langchain==0.1.20
+langchain-openai==0.1.8
+langchain-community==0.0.38
+chromadb==0.4.24
+langchain_chroma==0.1.2
+pypdf==3.17.4
 numpy==1.26.4
-beautifulsoup4
+beautifulsoup4==4.12.2
+requests==2.31.0
+aiofiles==23.2.1
+openai==1.35.0
 
 # LiveKit dependencies (coming soon - voice assistant feature)
 # livekit-agents
