@@ -123,12 +123,41 @@ export const AuthProvider = ({ children }) => {
       }
       
       const provider = new GoogleAuthProvider();
-      provider.setCustomParameters({ prompt: 'select_account' });
       
-      const { user } = await signInWithPopup(auth, provider);
-      console.log('Google sign-in successful:', user.uid);
-      return user;
+      // Configure the provider to avoid popup issues
+      provider.setCustomParameters({ 
+        prompt: 'select_account',
+        login_hint: 'user@example.com'
+      });
+      
+      // Add additional scopes if needed
+      provider.addScope('email');
+      provider.addScope('profile');
+      
+      console.log('Starting Google popup...');
+      const result = await signInWithPopup(auth, provider);
+      console.log('Google sign-in successful:', result.user.uid);
+      
+      return result.user;
     } catch (error) {
+      console.error('Google sign-in error details:', {
+        code: error.code,
+        message: error.message,
+        customData: error.customData
+      });
+      
+      // Handle specific Google sign-in errors
+      if (error.code === 'auth/popup-closed-by-user') {
+        console.log('User closed the popup');
+        // Don't treat this as an error, just return
+        return null;
+      } else if (error.code === 'auth/popup-blocked') {
+        throw new Error('Popup was blocked by browser. Please allow popups for this site.');
+      } else if (error.code === 'auth/cancelled-popup-request') {
+        console.log('Popup request was cancelled');
+        return null;
+      }
+      
       handleFirebaseError(error);
       throw error;
     }
