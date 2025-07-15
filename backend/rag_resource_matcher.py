@@ -5,7 +5,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from typing import List, Dict, Any
 
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_core.documents import Document
@@ -31,13 +31,11 @@ class RAGResourceMatcher:
         os.environ["OPENAI_API_KEY"] = openai_key
         
         self.llm = ChatOpenAI(
-            model_name="gpt-4o-mini",
-            temperature=0,
-            openai_api_key=openai_key
+            model="gpt-4o-mini",
+            temperature=0
         )
         self.embeddings = OpenAIEmbeddings(
-            model="text-embedding-3-large",
-            openai_api_key=openai_key
+            model="text-embedding-3-large"
         )
 
         # 2. Load data, create documents, and build the in-memory vector store
