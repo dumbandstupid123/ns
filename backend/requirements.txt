@@ -1,6 +1,6 @@
 # NextStep Backend Dependencies - Updated: 2025-01-15
 fastapi==0.104.1
-uvicorn==0.24.0
+uvicorn[standard]==0.24.0
 python-dotenv==1.0.0
 langchain==0.1.20
 langchain-openai==0.1.8
@@ -12,3 +12,7 @@ beautifulsoup4==4.12.2
 requests==2.31.0
 openai==1.35.0
 aiofiles==23.2.1
+
+# Additional dependencies for Railway deployment
+pydantic==2.4.2
+typing-extensions==4.8.0

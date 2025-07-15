@@ -11,6 +11,20 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
+def check_dependencies():
+    """Check if critical dependencies are importable"""
+    try:
+        import fastapi
+        import uvicorn
+        import langchain
+        import openai
+        import chromadb
+        logger.info("All critical dependencies found")
+        return True
+    except ImportError as e:
+        logger.error(f"Missing dependency: {e}")
+        return False
+
 def check_environment():
     """Check if required environment variables are set"""
     # Check for OpenAI API key (either name)
@@ -28,6 +42,11 @@ def check_environment():
 def main():
     """Main startup function"""
     logger.info("Starting NextStep backend...")
+    
+    # Check dependencies first
+    if not check_dependencies():
+        logger.error("Dependency check failed")
+        sys.exit(1)
     
     # Check environment
     if not check_environment():
@@ -48,11 +67,14 @@ def main():
             app, 
             host="0.0.0.0", 
             port=port,
-            log_level="info"
+            log_level="info",
+            access_log=True
         )
         
     except Exception as e:
         logger.error(f"Failed to start server: {e}")
+        import traceback
+        traceback.print_exc()
         sys.exit(1)
 
 if __name__ == "__main__":
