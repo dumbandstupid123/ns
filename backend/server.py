@@ -10,6 +10,10 @@ from pathlib import Path
 from datetime import datetime
 from rag_resource_matcher import RAGResourceMatcher
 
+# Langchain imports
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
+from langchain_core.prompts import PromptTemplate
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -392,7 +396,6 @@ async def chat_followup(request_data: Dict[str, Any]):
         context = "\n".join(context_parts)
         
         # Use the LLM to generate a response
-        from langchain_core.prompts import PromptTemplate
         
         prompt = PromptTemplate.from_template(
             "You are a helpful AI assistant for social workers. You have access to information about "
@@ -658,7 +661,6 @@ COMMON TASKS:
 Answer questions clearly and concisely. If you don't know something specific about the platform, acknowledge it and suggest alternative ways to get help. Be friendly and professional."""
 
         # Use the existing LLM from the RAG matcher
-        from langchain_core.messages import HumanMessage, SystemMessage
         
         messages = [
             SystemMessage(content=system_prompt),
@@ -737,7 +739,6 @@ PLATFORM FEATURES YOU KNOW:
 Always be concise, helpful, and sound like a real person having a conversation."""
 
         # Use the existing LLM from the RAG matcher
-        from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
         
         # Build conversation context
         messages = [SystemMessage(content=system_prompt)]
