@@ -13,16 +13,14 @@ logger = logging.getLogger(__name__)
 
 def check_environment():
     """Check if required environment variables are set"""
-    required_vars = ['OPENAI_API_KEY']
-    missing_vars = []
-    
-    for var in required_vars:
-        if not os.environ.get(var):
-            missing_vars.append(var)
-    
-    if missing_vars:
-        logger.error(f"Missing required environment variables: {missing_vars}")
+    # Check for OpenAI API key (either name)
+    openai_key = os.environ.get("OPENAI_API_KEY") or os.environ.get("OPEN_API_KEY")
+    if not openai_key:
+        logger.error("Missing OpenAI API key. Please set OPENAI_API_KEY or OPEN_API_KEY environment variable")
         return False
+    
+    # Set the standard name for consistency
+    os.environ["OPENAI_API_KEY"] = openai_key
     
     logger.info("All required environment variables are set")
     return True

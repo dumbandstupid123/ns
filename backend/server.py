@@ -778,7 +778,8 @@ async def translate_text(request_data: Dict[str, Any]):
         
         # Use OpenAI for translation
         from openai import OpenAI
-        client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+        openai_key = os.environ.get("OPENAI_API_KEY") or os.environ.get("OPEN_API_KEY")
+        client = OpenAI(api_key=openai_key)
         
         response = client.chat.completions.create(
             model="gpt-4o-mini",

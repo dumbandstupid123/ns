@@ -23,8 +23,12 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 class RAGResourceMatcher:
     def __init__(self):
         # 1. Initialize OpenAI and Embedding Models
-        if not os.environ.get("OPENAI_API_KEY"):
-            raise ValueError("OPENAI_API_KEY environment variable is required.")
+        openai_key = os.environ.get("OPENAI_API_KEY") or os.environ.get("OPEN_API_KEY")
+        if not openai_key:
+            raise ValueError("OPENAI_API_KEY or OPEN_API_KEY environment variable is required.")
+        
+        # Set the OpenAI API key for the session
+        os.environ["OPENAI_API_KEY"] = openai_key
         
         self.llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
         self.embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
