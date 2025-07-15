@@ -30,8 +30,15 @@ class RAGResourceMatcher:
         # Set the OpenAI API key for the session
         os.environ["OPENAI_API_KEY"] = openai_key
         
-        self.llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
-        self.embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
+        self.llm = ChatOpenAI(
+            model_name="gpt-4o-mini",
+            temperature=0,
+            openai_api_key=openai_key
+        )
+        self.embeddings = OpenAIEmbeddings(
+            model="text-embedding-3-large",
+            openai_api_key=openai_key
+        )
 
         # 2. Load data, create documents, and build the in-memory vector store
         try:
