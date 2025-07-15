@@ -1,31 +1,38 @@
-# Housing Resource Assistant
+# NextStep - AI-Powered Resource Matching System
 
-A modern AI-powered housing counselor application that helps social workers match clients with appropriate housing resources using AI analysis.
+A modern AI-powered resource matching application that helps social workers connect clients with appropriate housing, food, and transportation resources using intelligent semantic analysis.
 
 ## Features
 
-- **AI Resource Matching**: Intelligent matching of clients to housing resources using semantic analysis
-- **Voice Assistant**: LiveKit-powered voice chat with AI assistant
-- **Client Management**: Add and manage client information
-- **Resource Browser**: Browse and search available housing resources
-- **Modern Dashboard**: Clean interface for housing counselors
+- **AI Resource Matching**: Intelligent matching of clients to resources using semantic analysis with OpenAI and ChromaDB
+- **Client Management**: Add and manage client information with comprehensive profiles
+- **Resource Browser**: Browse and search 170+ available housing, food, and transportation resources
+- **Modern Dashboard**: Clean interface for social workers and case managers
+- **Voice Assistant**: AI-powered voice chat functionality
+- **Real-time Updates**: Live resource status and availability tracking
 
 ## Architecture
 
 This application consists of:
-1. **FastAPI Backend** (`backend/server.py`) - Main API server on port 5001
-2. **React Frontend** - Modern web interface on port 5173
-3. **LiveKit Agent** (`backend/agent.py`) - Voice assistant on port 8082
+1. **FastAPI Backend** - Main API server with RAG resource matching
+2. **React Frontend** - Modern web interface with Vite
+3. **ChromaDB Vector Database** - Semantic search for resources
+4. **OpenAI Integration** - AI-powered matching and chat
 
-## Setup Instructions
+## Deployment
 
-### Prerequisites
+### Live Application
+- **Frontend**: Deployed on Vercel
+- **Backend**: Deployed on Railway at `https://ns-deploy-production.up.railway.app`
+
+### Setup Instructions
+
+#### Prerequisites
 - Python 3.8+
 - Node.js 16+
 - OpenAI API key
-- LiveKit credentials
 
-### Backend Setup
+#### Backend Setup
 ```bash
 cd backend
 python -m venv venv
@@ -33,19 +40,19 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### Frontend Setup
+#### Frontend Setup
 ```bash
 cd frontend
 npm install
 ```
 
-### Environment Variables
+#### Environment Variables
 Create a `.env` file in the root directory:
 ```env
 OPENAI_API_KEY=your_openai_api_key_here
 ```
 
-### Running the Application
+#### Running the Application
 
 1. **Start the Backend API** (Terminal 1):
 ```bash
@@ -54,20 +61,13 @@ source venv/bin/activate
 python server.py
 ```
 
-2. **Start the LiveKit Agent** (Terminal 2):
-```bash
-cd backend
-source venv/bin/activate
-python agent.py
-```
-
-3. **Start the Frontend** (Terminal 3):
+2. **Start the Frontend** (Terminal 2):
 ```bash
 cd frontend
 npm run dev
 ```
 
-4. **Access the Application**:
+3. **Access the Application**:
    - Main App: http://localhost:5173
    - API Health: http://localhost:5001/api/health
 
@@ -77,14 +77,12 @@ npm run dev
 clean-repo/
 ├── backend/                 # Python backend
 │   ├── server.py           # Main FastAPI server
-│   ├── agent.py            # LiveKit voice agent
-│   ├── resource_parser.py  # Resource data parser
-│   ├── api.py              # Assistant function handlers
+│   ├── simple_rag_matcher.py # RAG resource matching
+│   ├── assistant_functions.py # AI assistant functions
 │   ├── prompts.py          # AI prompts and messages
 │   ├── requirements.txt    # Python dependencies
-│   ├── resources.txt       # Raw resource data
-│   ├── mock_clients.json   # Sample client data
-│   └── clients.json        # Real client data storage
+│   ├── structured_resources.json # Resource database
+│   └── clients.json        # Client data storage
 ├── frontend/               # React frontend
 │   ├── src/
 │   │   ├── components/     # React components
@@ -92,7 +90,6 @@ clean-repo/
 │   │   └── main.jsx        # Entry point
 │   ├── package.json        # Node dependencies
 │   └── index.html          # HTML template
-├── venv/                   # Python virtual environment
 └── README.md               # This file
 ```
 
@@ -102,21 +99,28 @@ clean-repo/
 - `GET /api/resources` - Get all resources
 - `GET /api/clients` - Get all clients
 - `POST /api/clients` - Add new client
-- `GET /api/get` - Get LiveKit token for voice chat
+- `POST /api/match_resources` - Match client to resources using AI
+- `POST /api/chat` - Chat with AI assistant
 
 ## Key Features
 
-### Voice Assistant
-- Real-time voice interaction using LiveKit
-- AI-powered responses using GPT-4
-- Client lookup and case history retrieval
-- Resource information and recommendations
+### AI Resource Matching
+- Semantic search through 170+ resources
+- Intelligent matching based on client needs
+- Real-time resource recommendations
+- Support for housing, food, and transportation resources
+
+### Client Management
+- Comprehensive client profiles
+- Case history tracking
+- Resource assignment and follow-up
 
 ## Development
 
 The application is designed to be modular and extensible. The main components are:
 
-1. **Voice Agent**: Provides conversational interface
-2. **Frontend Dashboard**: Modern React interface for counselors
+1. **RAG Matcher**: Provides intelligent resource matching
+2. **Frontend Dashboard**: Modern React interface for social workers
+3. **AI Assistant**: Conversational interface for resource queries
 
-All unused code and duplicate applications have been removed for simplicity.
+All components are optimized for production deployment with simplified dependencies.
