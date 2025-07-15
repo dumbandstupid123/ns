@@ -10,10 +10,6 @@ from pathlib import Path
 from datetime import datetime
 from rag_resource_matcher import RAGResourceMatcher
 
-# Langchain imports
-from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
-from langchain_core.prompts import PromptTemplate
-
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -396,6 +392,7 @@ async def chat_followup(request_data: Dict[str, Any]):
         context = "\n".join(context_parts)
         
         # Use the LLM to generate a response
+        from langchain_core.prompts import PromptTemplate
         
         prompt = PromptTemplate.from_template(
             "You are a helpful AI assistant for social workers. You have access to information about "
@@ -624,9 +621,6 @@ async def get_dashboard_resource_status():
 async def help_chatbot(request_data: Dict[str, Any]):
     """Help chatbot endpoint for platform assistance."""
     try:
-        if not rag_matcher:
-            raise HTTPException(status_code=500, detail="RAG Resource Matcher not initialized")
-            
         message = request_data.get('message', '')
         context = request_data.get('context', 'help_chatbot')
         
@@ -661,13 +655,17 @@ COMMON TASKS:
 Answer questions clearly and concisely. If you don't know something specific about the platform, acknowledge it and suggest alternative ways to get help. Be friendly and professional."""
 
         # Use the existing LLM from the RAG matcher
+        from langchain_openai import ChatOpenAI
+        from langchain_core.messages import HumanMessage, SystemMessage
+        
+        llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.7)
         
         messages = [
             SystemMessage(content=system_prompt),
             HumanMessage(content=message)
         ]
         
-        response = rag_matcher.llm.invoke(messages)
+        response = llm.invoke(messages)
         
         return {
             "response": response.content,
@@ -684,9 +682,6 @@ Answer questions clearly and concisely. If you don't know something specific abo
 async def voice_assistant(request_data: Dict[str, Any]):
     """Advanced voice assistant endpoint with comprehensive platform knowledge."""
     try:
-        if not rag_matcher:
-            raise HTTPException(status_code=500, detail="RAG Resource Matcher not initialized")
-            
         message = request_data.get('message', '')
         context = request_data.get('context', 'voice_assistant')
         conversation_history = request_data.get('conversation_history', [])
@@ -739,6 +734,10 @@ PLATFORM FEATURES YOU KNOW:
 Always be concise, helpful, and sound like a real person having a conversation."""
 
         # Use the existing LLM from the RAG matcher
+        from langchain_openai import ChatOpenAI
+        from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
+        
+        llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.8)
         
         # Build conversation context
         messages = [SystemMessage(content=system_prompt)]
@@ -754,7 +753,7 @@ Always be concise, helpful, and sound like a real person having a conversation."
         messages.append(HumanMessage(content=message))
         
         # Create the chat completion
-        response = rag_matcher.llm.invoke(messages)
+        response = llm.invoke(messages)
         
         return {
             "response": response.content,

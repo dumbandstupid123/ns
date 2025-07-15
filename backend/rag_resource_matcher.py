@@ -5,7 +5,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from typing import List, Dict, Any
 
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_core.documents import Document
@@ -30,13 +30,8 @@ class RAGResourceMatcher:
         # Set the OpenAI API key for the session
         os.environ["OPENAI_API_KEY"] = openai_key
         
-        self.llm = ChatOpenAI(
-            model="gpt-4o-mini",
-            temperature=0
-        )
-        self.embeddings = OpenAIEmbeddings(
-            model="text-embedding-3-large"
-        )
+        self.llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+        self.embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 
         # 2. Load data, create documents, and build the in-memory vector store
         try:
@@ -126,10 +121,10 @@ class RAGResourceMatcher:
         final_recommendations = [doc.metadata for doc in final_docs]
 
         # Generate the final summary using the LLM
-        llm_summary = self._generate_llm_summary(question, final_docs, resource_type)
+        recommendation_reason = self._generate_llm_summary(question, final_docs, resource_type)
         
         return {
-            "llm_summary": llm_summary,
+            "recommendation_reason": recommendation_reason,
             "retrieved_recommendations": final_recommendations,
             "client_question": question
         }

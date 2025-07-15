@@ -1,5 +1,5 @@
 export const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://ns-deploy-production.up.railway.app'
+  ? 'https://your-railway-app-name.railway.app'  // Replace with your Railway URL
   : 'http://localhost:5001';
 
 export const API_ENDPOINTS = {
