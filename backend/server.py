@@ -8,7 +8,7 @@ from typing import Dict, Any
 import logging
 from pathlib import Path
 from datetime import datetime
-from rag_resource_matcher import RAGResourceMatcher
+from simple_rag_matcher import SimpleRAGResourceMatcher
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -20,23 +20,24 @@ app = FastAPI()
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins for development
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Get the directory where the script is located
-SCRIPT_DIR = Path(__file__).parent.absolute()
-CLIENTS_FILE = SCRIPT_DIR / 'clients.json'
-
 # Initialize RAG Resource Matcher
+rag_matcher = None
 try:
-    rag_matcher = RAGResourceMatcher()
+    rag_matcher = SimpleRAGResourceMatcher()
     logger.info("RAG Resource Matcher initialized successfully")
 except Exception as e:
     logger.error(f"FATAL: Failed to initialize RAG Resource Matcher: {e}")
-    raise  # Re-raise the exception to stop the server from starting
+    rag_matcher = None
+
+# Get the directory where the script is located
+SCRIPT_DIR = Path(__file__).parent.absolute()
+CLIENTS_FILE = SCRIPT_DIR / 'clients.json'
 
 def load_clients():
     """Load clients from JSON file."""
