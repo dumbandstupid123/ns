@@ -4,7 +4,7 @@ const getBackendURL = () => {
   if (process.env.NODE_ENV === 'production') {
     return process.env.REACT_APP_BACKEND_URL || 
            process.env.VITE_BACKEND_URL || 
-           'https://YOUR_RAILWAY_BACKEND_URL_HERE.railway.app'; // Replace this with your actual Railway URL
+           'https://skyscraper-production.up.railway.app'; // Your Railway backend URL
   }
   // For local development
   return 'http://localhost:5001';
