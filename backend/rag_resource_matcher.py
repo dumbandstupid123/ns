@@ -5,7 +5,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from typing import List, Dict, Any
 
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_core.documents import Document
