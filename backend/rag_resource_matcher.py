@@ -121,10 +121,10 @@ class RAGResourceMatcher:
         final_recommendations = [doc.metadata for doc in final_docs]
 
         # Generate the final summary using the LLM
-        recommendation_reason = self._generate_llm_summary(question, final_docs, resource_type)
+        llm_summary = self._generate_llm_summary(question, final_docs, resource_type)
         
         return {
-            "recommendation_reason": recommendation_reason,
+            "llm_summary": llm_summary,
             "retrieved_recommendations": final_recommendations,
             "client_question": question
         }
